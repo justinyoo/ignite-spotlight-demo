@@ -1,0 +1,16 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+
+    "OpenApi__Version": "v3",
+    "OpenApi__DocVersion": "v1.0.0",
+    "OpenApi__DocTitle": "NHN Cloud SMS Verification API",
+    "OpenApi__DocDescription": "This is an API for verifying the message senders through the NHN Cloud SMS service.",
+
+    "Toast__BaseUrl": "https://api-sms.cloud.toast.com/",
+    "Toast__Version": "v3.0",
+    "Toast__Endpoints__ListSenders": "/sms/{version}/appKeys/{appKey}/sendNos"
+  }
+}

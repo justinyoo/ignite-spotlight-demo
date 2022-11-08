@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8B3C76EE-3788-43DF-80AD-0ADD21526394}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApi", "src\GitHubApi\GitHubApi.csproj", "{E3C67D85-93B3-4D71-AC74-84C4E9BFC24E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapsApi", "src\MapsApi\MapsApi.csproj", "{74860E3A-22FF-49B3-90CB-45197D692833}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmsCommon", "src\SmsCommon\SmsCommon.csproj", "{F4EAE851-D309-4B78-B6D5-3C374D46BAA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmsFacadeApi", "src\SmsFacadeApi\SmsFacadeApi.csproj", "{6CD66A59-DBE8-4B87-9C3A-C5E46DD93F33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmsVerifyFacadeApi", "src\SmsVerifyFacadeApi\SmsVerifyFacadeApi.csproj", "{DFB7EF9B-636E-416B-B042-6A785C01E8D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3C67D85-93B3-4D71-AC74-84C4E9BFC24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3C67D85-93B3-4D71-AC74-84C4E9BFC24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3C67D85-93B3-4D71-AC74-84C4E9BFC24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3C67D85-93B3-4D71-AC74-84C4E9BFC24E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74860E3A-22FF-49B3-90CB-45197D692833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74860E3A-22FF-49B3-90CB-45197D692833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74860E3A-22FF-49B3-90CB-45197D692833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74860E3A-22FF-49B3-90CB-45197D692833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4EAE851-D309-4B78-B6D5-3C374D46BAA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4EAE851-D309-4B78-B6D5-3C374D46BAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4EAE851-D309-4B78-B6D5-3C374D46BAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4EAE851-D309-4B78-B6D5-3C374D46BAA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD66A59-DBE8-4B87-9C3A-C5E46DD93F33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD66A59-DBE8-4B87-9C3A-C5E46DD93F33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD66A59-DBE8-4B87-9C3A-C5E46DD93F33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD66A59-DBE8-4B87-9C3A-C5E46DD93F33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB7EF9B-636E-416B-B042-6A785C01E8D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB7EF9B-636E-416B-B042-6A785C01E8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB7EF9B-636E-416B-B042-6A785C01E8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB7EF9B-636E-416B-B042-6A785C01E8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3C67D85-93B3-4D71-AC74-84C4E9BFC24E} = {8B3C76EE-3788-43DF-80AD-0ADD21526394}
+		{74860E3A-22FF-49B3-90CB-45197D692833} = {8B3C76EE-3788-43DF-80AD-0ADD21526394}
+		{F4EAE851-D309-4B78-B6D5-3C374D46BAA6} = {8B3C76EE-3788-43DF-80AD-0ADD21526394}
+		{6CD66A59-DBE8-4B87-9C3A-C5E46DD93F33} = {8B3C76EE-3788-43DF-80AD-0ADD21526394}
+		{DFB7EF9B-636E-416B-B042-6A785C01E8D7} = {8B3C76EE-3788-43DF-80AD-0ADD21526394}
+	EndGlobalSection
+EndGlobal
