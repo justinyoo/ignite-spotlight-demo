@@ -21,31 +21,31 @@ rm CascadiaCode.zip
 ## AZURE CLI EXTENSIONS ##
 # Uncomment the below to install Azure CLI extensions
 # extensions=$(az extension list-available --query "[].name" | jq -c -r '.[]')
-# extensions=(account alias deploy-to-azure functionapp subscription webapp)
-# for extension in $extensions;
-# do
-#     az extension add --name $extension
-# done
+extensions=(account alias deploy-to-azure functionapp subscription webapp)
+for extension in $extensions;
+do
+    az extension add --name $extension
+done
 
 ## AZURE BICEP CLI ##
 # Uncomment the below to install Azure Bicep CLI.
-# az bicep install
+az bicep install
 
 ## AZURE FUNCTIONS CORE TOOLS ##
 # Uncomment the below to install Azure Functions Core Tools. Make sure you have installed node.js
-# npm i -g azure-functions-core-tools@4 --unsafe-perm true
+npm i -g azure-functions-core-tools@4 --unsafe-perm true
 
 ## Azurite ##
 # Uncomment the below to install Azurite. Make sure you have installed node.js
-# npm install -g azurite
+npm install -g azurite
 
 ## AZURE STATIC WEB APPS CLI ##
 # Uncomment the below to install Azure Static Web Apps CLI. Make sure you have installed node.js
-# npm install -g @azure/static-web-apps-cli
+npm install -g @azure/static-web-apps-cli
 
 ## AZURE DEV CLI ##
 # Uncomment the below to install Azure Dev CLI. Make sure you have installed Azure CLI and GitHub CLI
-# curl -fsSL https://aka.ms/install-azd.sh | bash
+curl -fsSL https://aka.ms/install-azd.sh | bash
 
 ## NGROK ##
 # Uncomment the below to install ngrok.
