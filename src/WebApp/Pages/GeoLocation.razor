@@ -1,0 +1,49 @@
+@page "/geolocation"
+@inject IGeolocationService Geolocation
+
+@if (position == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>Latitude: @position.Coords.Latitude</p>
+    <p>Longitude: @position.Coords.Longitude</p>
+}
+
+
+@code {
+    protected GeolocationPosition? position;
+    protected GeolocationPositionError? error;
+
+    private PositionOptions _options = new PositionOptions()
+    {
+        EnableHighAccuracy = true,
+        MaximumAge = null,
+        Timeout = 15_000
+    };
+
+    protected override void OnInitialized()
+    {
+        Geolocation.GetCurrentPosition(
+            component: this,
+            onSuccessCallbackMethodName: nameof(OnPositionReceived),
+            onErrorCallbackMethodName: nameof(OnPositionError),
+            options: _options
+        );
+    }
+
+    [JSInvokable]
+    public void OnPositionReceived(GeolocationPosition position)
+    {
+        this.position = position;
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public void OnPositionError(GeolocationPositionError positionError)
+    {
+        this.error = positionError;
+        StateHasChanged();
+    }
+}
