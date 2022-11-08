@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 using FluentValidation;
 
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
-
 using IgniteSpotlight.SmsCommon.Exceptions;
 using IgniteSpotlight.SmsFacadeApi.Models;
+
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 
 namespace IgniteSpotlight.SmsFacadeApi.Validators
 {

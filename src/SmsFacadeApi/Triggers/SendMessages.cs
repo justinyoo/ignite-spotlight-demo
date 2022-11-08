@@ -1,22 +1,11 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 
 using Aliencube.AzureFunctions.Extensions.Common;
 
 using FluentValidation;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 
 using IgniteSpotlight.SmsCommon.Builders;
 using IgniteSpotlight.SmsCommon.Configurations;
@@ -27,6 +16,16 @@ using IgniteSpotlight.SmsFacadeApi.Configurations;
 using IgniteSpotlight.SmsFacadeApi.Examples;
 using IgniteSpotlight.SmsFacadeApi.Models;
 using IgniteSpotlight.SmsFacadeApi.Validators;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace IgniteSpotlight.SmsFacadeApi.Triggers
 {
@@ -48,9 +47,6 @@ namespace IgniteSpotlight.SmsFacadeApi.Triggers
         [FunctionName(nameof(SendMessages))]
         [OpenApiOperation(operationId: "Messages.Send", tags: new[] { "messages" })]
         [OpenApiSecurity("app_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Basic, Description = "Toast API basic auth")]
-        // [OpenApiSecurity("app_key", SecuritySchemeType.ApiKey, Name = "x-app-key", In = OpenApiSecurityLocationType.Header)]
-        // [OpenApiSecurity("secret_key", SecuritySchemeType.ApiKey, Name = "x-secret-key", In = OpenApiSecurityLocationType.Header)]
-        // [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "x-functions-key", In = OpenApiSecurityLocationType.Header)]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(SendMessagesRequestBody), Example = typeof(SendMessagesRequestBodyModelExample), Description = "Message payload to send")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(SendMessagesResponse),  Example = typeof(SendMessagesResponseModelExample), Description = "The OK response")]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.BadRequest, Description = "The input was invalid")]
@@ -58,7 +54,7 @@ namespace IgniteSpotlight.SmsFacadeApi.Triggers
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "POST", Route = "messages")] HttpRequest req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            this._logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var headers = default(RequestHeaderModel);
             try
@@ -68,7 +64,7 @@ namespace IgniteSpotlight.SmsFacadeApi.Triggers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                this._logger.LogError(ex.Message);
                 return new BadRequestResult();
             }
 
@@ -79,7 +75,7 @@ namespace IgniteSpotlight.SmsFacadeApi.Triggers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                this._logger.LogError(ex.Message);
                 return new BadRequestResult();
             }
 

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
+using IgniteSpotlight.SmsCommon.Models;
+using IgniteSpotlight.SmsFacadeApi.Models;
+
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
-
-using IgniteSpotlight.SmsCommon.Models;
-using IgniteSpotlight.SmsFacadeApi.Models;
 
 namespace IgniteSpotlight.SmsFacadeApi.Examples
 {

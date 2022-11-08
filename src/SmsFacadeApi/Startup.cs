@@ -1,17 +1,22 @@
-using FluentValidation;
+using System;
 
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Configurations.AppSettings.Extensions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 
 using IgniteSpotlight.SmsCommon.Configurations;
 using IgniteSpotlight.SmsFacadeApi.Configurations;
 using IgniteSpotlight.SmsFacadeApi.Models;
 using IgniteSpotlight.SmsFacadeApi.Validators;
 
-[assembly: FunctionsStartup(typeof(IgniteSpotlight.SmsFacadeApi.Startup))]
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Configurations.AppSettings.Extensions;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
+[assembly: FunctionsStartup(typeof(IgniteSpotlight.SmsFacadeApi.Startup))]
 namespace IgniteSpotlight.SmsFacadeApi
 {
     public class Startup : FunctionsStartup
@@ -37,6 +42,27 @@ namespace IgniteSpotlight.SmsFacadeApi
                                         .GetService<IConfiguration>()
                                         .Get<ToastSettings<SmsEndpointSettings>>(ToastSettings.Name);
             services.AddSingleton(toastSettings);
+
+            var options = new DefaultOpenApiConfigurationOptions()
+            {
+                OpenApiVersion = OpenApiVersionType.V3,
+                Info = new OpenApiInfo()
+                {
+                    Version = "1.0.0",
+                    Title = "NHN Cloud SMS API",
+                    Description = "This is an API for sending SMS messages through the NHN Cloud SMS service."
+                }
+            };
+
+            /* ⬇️⬇️⬇️ for GH Codespaces ⬇️⬇️⬇️ */
+            var codespaces = bool.TryParse(Environment.GetEnvironmentVariable("OpenApi__RunOnCodespaces"), out var isCodespaces) && isCodespaces;
+            if (codespaces)
+            {
+                options.IncludeRequestingHostName = false;
+            }
+            /* ⬆️⬆️⬆️ for GH Codespaces ⬆️⬆️⬆️ */
+
+            services.AddSingleton<IOpenApiConfigurationOptions>(options);
         }
 
         private static void ConfigureHttpClient(IServiceCollection services)
@@ -47,11 +73,7 @@ namespace IgniteSpotlight.SmsFacadeApi
         private static void ConfigureValidators(IServiceCollection services)
         {
             services.AddSingleton<IRegexDateTimeWrapper, RegexDateTimeWrapper>();
-            services.AddScoped<IValidator<GetMessageRequestQueries>, GetMessageRequestQueryValidator>();
-            services.AddScoped<IValidator<ListMessagesRequestQueries>, ListMessagesRequestQueryValidator>();
-            services.AddScoped<IValidator<ListMessageStatusRequestQueries>, ListMessageStatusRequestQueryValidator>();
             services.AddScoped<IValidator<SendMessagesRequestBody>, SendMessagesRequestBodyValidator>();
-            services.AddScoped<IValidator<ListSendersRequestQueries>, ListSendersRequestQueryValidator>();
         }
     }
 }

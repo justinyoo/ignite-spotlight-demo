@@ -12,7 +12,7 @@
       "type": "process",
       "problemMatcher": "$msCompile",
       "options": {
-        "cwd": "${workspaceFolder}/src/MapsApi"
+        "cwd": "${workspaceFolder}/src/${input:pickApp}"
       }
     },
     {
@@ -31,7 +31,7 @@
       },
       "problemMatcher": "$msCompile",
       "options": {
-        "cwd": "${workspaceFolder}/src/MapsApi"
+        "cwd": "${workspaceFolder}/src/${input:pickApp}"
       }
     },
     {
@@ -47,7 +47,7 @@
       "type": "process",
       "problemMatcher": "$msCompile",
       "options": {
-        "cwd": "${workspaceFolder}/src/MapsApi"
+        "cwd": "${workspaceFolder}/src/${input:pickApp}"
       }
     },
     {
@@ -64,18 +64,31 @@
       "dependsOn": "clean release (functions)",
       "problemMatcher": "$msCompile",
       "options": {
-        "cwd": "${workspaceFolder}/src/MapsApi"
+        "cwd": "${workspaceFolder}/src/${input:pickApp}"
       }
     },
     {
       "type": "func",
       "dependsOn": "build (functions)",
       "options": {
-        "cwd": "${workspaceFolder}/src/MapsApi/bin/Debug/net6.0"
+        "cwd": "${workspaceFolder}/src/${input:pickApp}/bin/Debug/net6.0"
       },
       "command": "host start",
       "isBackground": true,
       "problemMatcher": "$func-dotnet-watch"
+    }
+  ],
+
+  "inputs": [
+    {
+      "id": "pickApp",
+      "type": "pickString",
+      "description": "Choose which app to start",
+      "options": [
+        "MapsApi",
+        "SmsFacadeApi",
+        "SmsVerifyFacadeApi"
+      ]
     }
   ]
 }

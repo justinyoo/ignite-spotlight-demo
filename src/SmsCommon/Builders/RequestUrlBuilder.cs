@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 using IgniteSpotlight.SmsCommon.Configurations;
 using IgniteSpotlight.SmsCommon.Models;
+
+using Newtonsoft.Json;
 
 namespace IgniteSpotlight.SmsCommon.Builders
 {

@@ -1,9 +1,8 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 using IgniteSpotlight.SmsCommon.Models;
 
-namespace IgniteSpotlight.SmsFacadeApi.Models
+using Newtonsoft.Json;
+
+namespace IgniteSpotlight.SmsVerifyFacadeApi.Models
 {
     /// <summary>
     /// This represents the entity for ListSenders response.

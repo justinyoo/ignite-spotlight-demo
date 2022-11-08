@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
+using IgniteSpotlight.SmsCommon.Models;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
-using IgniteSpotlight.SmsCommon.Models;
 
 namespace IgniteSpotlight.SmsFacadeApi.Models
 {

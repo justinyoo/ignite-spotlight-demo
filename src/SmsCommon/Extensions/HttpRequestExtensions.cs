@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Text;
 
-using Microsoft.AspNetCore.Http;
-
 using IgniteSpotlight.SmsCommon.Models;
+
+using Microsoft.AspNetCore.Http;
 
 namespace IgniteSpotlight.SmsCommon.Extensions
 {

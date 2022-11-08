@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 using FluentValidation;
 
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
-
 using IgniteSpotlight.SmsVerifyFacadeApi.Models;
+
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 
 namespace IgniteSpotlight.SmsVerifyFacadeApi.Validators
 {

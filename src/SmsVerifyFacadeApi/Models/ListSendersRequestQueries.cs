@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using IgniteSpotlight.SmsCommon.Models;
+
+using Newtonsoft.Json;
 
 namespace IgniteSpotlight.SmsVerifyFacadeApi.Models
 {
     /// <summary>
     /// This represents the entity for ListSenders request query parameters.
     /// </summary>
-    public class ListSendersRequestQueries
+    public class ListSendersRequestQueries : BaseRequestQueries
     {
         /// <summary>
         /// Gets or sets the sender's phone number.
