@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -42,12 +43,13 @@ namespace IgniteSpotlight.MapsApi.Triggers
         /// <returns>Returns <see cref="OkObjectResult"/> that contains the base64-encoded image.</returns>
         [FunctionName(nameof(NaverMapsTrigger.GetNaverMap))]
         [OpenApiOperation(operationId: nameof(NaverMapsTrigger.GetNaverMap), tags: new[] { "naver" })]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, In = OpenApiSecurityLocationType.Header, Name = "x-functions-key", Description = "Functions API key")]
         [OpenApiParameter(name: "lat", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **latitude** parameter")]
         [OpenApiParameter(name: "long", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **longitude** parameter")]
         [OpenApiParameter(name: "zoom", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "The **zoom level** parameter &ndash; Default value is `13`")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MapData), Description = "The base64-encoded map image as an OK response")]
         public async Task<IActionResult> GetNaverMap(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = "naver")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "GET", Route = "naver")] HttpRequest req)
         {
             this._logger.LogInformation("C# HTTP trigger function processed a request.");
 
