@@ -34,24 +34,29 @@ namespace IgniteSpotlight.MapsApi.Services
         /// <inheritdoc/>
         public async Task<byte[]> GetMapAsync(HttpRequest req)
         {
-            var latitude = req.Query["lat"];
-            var longitude = req.Query["long"];
-            var zoom = (string)req.Query["zoom"] ?? "13";
-
-            var sb = new StringBuilder();
-            sb.Append("https://naveropenapi.apigw.ntruss.com/map-static/v2/raster")
-              .Append($"?center={longitude},{latitude}")
-              .Append("&w=400")
-              .Append("&h=400")
-              .Append($"&level={zoom}")
-              .Append($"&markers=color:blue|pos:{longitude}%20{latitude}")
-              .Append("&format=png")
-              .Append("&lang=en");
-            var requestUri = new Uri(sb.ToString());
-
+            // For Mock data
             this._http.DefaultRequestHeaders.Clear();
-            this._http.DefaultRequestHeaders.Add("X-NCP-APIGW-API-KEY-ID", this._settings.Naver.ClientId);
-            this._http.DefaultRequestHeaders.Add("X-NCP-APIGW-API-KEY", this._settings.Naver.ClientSecret);
+            var requestUri = new Uri("https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/main/images/map.png");
+
+            // For real data
+            // var latitude = req.Query["lat"];
+            // var longitude = req.Query["long"];
+            // var zoom = (string)req.Query["zoom"] ?? "13";
+
+            // var sb = new StringBuilder();
+            // sb.Append("https://naveropenapi.apigw.ntruss.com/map-static/v2/raster")
+            //   .Append($"?center={longitude},{latitude}")
+            //   .Append("&w=400")
+            //   .Append("&h=400")
+            //   .Append($"&level={zoom}")
+            //   .Append($"&markers=color:blue|pos:{longitude}%20{latitude}")
+            //   .Append("&format=png")
+            //   .Append("&lang=en");
+            // var requestUri = new Uri(sb.ToString());
+
+            // this._http.DefaultRequestHeaders.Clear();
+            // this._http.DefaultRequestHeaders.Add("X-NCP-APIGW-API-KEY-ID", this._settings.Naver.ClientId);
+            // this._http.DefaultRequestHeaders.Add("X-NCP-APIGW-API-KEY", this._settings.Naver.ClientSecret);
 
             var bytes = await this._http.GetByteArrayAsync(requestUri).ConfigureAwait(false);
 

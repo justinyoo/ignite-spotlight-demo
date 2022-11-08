@@ -69,7 +69,7 @@ namespace IgniteSpotlight.MapsApi.Triggers
         [OpenApiParameter(name: "zoom", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "The **zoom level** parameter &ndash; Default value is `13`")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "image/png", bodyType: typeof(byte[]), Description = "The map image as an OK response")]
         public async Task<IActionResult> GetNaverMapImage(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = "naver/image")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "GET", Route = "naver/image")] HttpRequest req)
         {
             this._logger.LogInformation("C# HTTP trigger function processed a request.");
 

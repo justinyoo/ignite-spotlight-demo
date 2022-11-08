@@ -21,7 +21,6 @@ namespace IgniteSpotlight.MapsApi.Services
         {
             this._services = new Dictionary<string, IMapService>()
             {
-                { GoogleMapService.Name, new GoogleMapService(settings, factory) },
                 { NaverMapService.Name, new NaverMapService(settings, factory) },
             };
         }
