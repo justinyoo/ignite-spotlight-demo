@@ -9,10 +9,14 @@ on:
     - main
   workflow_dispatch:
     inputs:
+      resource_name:
+        type: string
+        required: true
+        description: 'Azure resource name'
       from_portal:
         type: string
-        description: 'Value indicating whether it's triggered from Azure Portal or not'
         required: false
+        description: 'Value indicating whether it is triggered from Azure Portal or not'
         default: 'false'
 
 jobs:
