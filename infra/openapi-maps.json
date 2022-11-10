@@ -1,0 +1,137 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Naver Map API Wrapper",
+    "description": "This is the facade API for Naver Maps.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7071/api"
+    }
+  ],
+  "paths": {
+    "/naver": {
+      "get": {
+        "tags": [
+          "naver"
+        ],
+        "operationId": "GetNaverMap",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "The **latitude** parameter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "long",
+            "in": "query",
+            "description": "The **longitude** parameter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zoom",
+            "in": "query",
+            "description": "The **zoom level** parameter &ndash; Default value is `13`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The base64-encoded map image as an OK response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/mapData"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "function_key": [ ]
+          }
+        ]
+      }
+    },
+    "/naver/image": {
+      "get": {
+        "tags": [
+          "naver"
+        ],
+        "operationId": "GetNaverMapImage",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "The **latitude** parameter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "long",
+            "in": "query",
+            "description": "The **longitude** parameter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zoom",
+            "in": "query",
+            "description": "The **zoom level** parameter &ndash; Default value is `13`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The map image as an OK response",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "mapData": {
+        "type": "object",
+        "properties": {
+          "base64Image": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "function_key": {
+        "type": "apiKey",
+        "description": "Functions API key",
+        "name": "x-functions-key",
+        "in": "header"
+      }
+    }
+  }
+}

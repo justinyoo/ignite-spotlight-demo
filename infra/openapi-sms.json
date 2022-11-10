@@ -1,0 +1,210 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "NHN Cloud SMS API",
+    "description": "This is an API for sending SMS messages through the NHN Cloud SMS service.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7071/api"
+    }
+  ],
+  "paths": {
+    "/messages": {
+      "post": {
+        "tags": [
+          "messages"
+        ],
+        "operationId": "Messages.Send",
+        "requestBody": {
+          "description": "Message payload to send",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sendMessagesRequestBody"
+              },
+              "examples": {
+                "sample": {
+                  "summary": "This represents the example entity for SendMessages request body.",
+                  "value": "{\"templateId\":\"TemplateId\",\"body\":\"body\",\"sendNo\":\"00000000\",\"requestDate\":\"2018-08-10 10:00\",\"senderGroupingKey\":\"SenderGroupingKey\",\"recipientList\":[{\"recipientNo\":\"01000000000\",\"countryCode\":\"82\",\"internationalRecipientNo\":\"821000000000\",\"templateParameter\":{\"key\":\"value\"},\"recipientGroupingKey\":\"recipientGroupingKey\"}],\"userId\":\"UserId\",\"statsId\":\"statsId\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sendMessagesResponse"
+                },
+                "examples": {
+                  "sample": {
+                    "summary": "This represents the example entity for SendMessages response body.",
+                    "value": "{\"header\":{\"isSuccessful\":true,\"resultCode\":0,\"resultMessage\":\"SUCCESS\"},\"body\":{\"data\":{\"requestId\":\"201808100000000000000000\",\"statusCode\":\"2\",\"senderGroupingKey\":\"SenderGroupingKey\",\"sendResultList\":[{\"recipientNo\":\"01000000000\",\"resultCode\":0,\"resultMessage\":\"SUCCESS\",\"recipientSeq\":1,\"recipientGroupingKey\":\"RecipientGroupingKey\"}]}}}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The input was invalid"
+          },
+          "500": {
+            "description": "The service has got an unexpected error"
+          }
+        },
+        "security": [
+          {
+            "app_auth": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "responseHeaderModel": {
+        "type": "object",
+        "properties": {
+          "isSuccessful": {
+            "type": "boolean"
+          },
+          "resultCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resultMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "responseItemBodyModel_sendMessagesResponseData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/sendMessagesResponseData"
+          }
+        }
+      },
+      "sendMessagesRequestBody": {
+        "type": "object",
+        "properties": {
+          "templateId": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "sendNo": {
+            "type": "string"
+          },
+          "requestDate": {
+            "type": "string"
+          },
+          "senderGroupingKey": {
+            "type": "string"
+          },
+          "recipientList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/sendMessagesRequestRecipient"
+            }
+          },
+          "userId": {
+            "type": "string"
+          },
+          "statsId": {
+            "type": "string"
+          }
+        }
+      },
+      "sendMessagesRequestRecipient": {
+        "type": "object",
+        "properties": {
+          "recipientNo": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "internationalRecipientNo": {
+            "type": "string"
+          },
+          "templateParameter": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "recipientGroupingKey": {
+            "type": "string"
+          }
+        }
+      },
+      "sendMessagesResponse": {
+        "type": "object",
+        "properties": {
+          "header": {
+            "$ref": "#/components/schemas/responseHeaderModel"
+          },
+          "body": {
+            "$ref": "#/components/schemas/responseItemBodyModel_sendMessagesResponseData"
+          }
+        }
+      },
+      "sendMessagesResponseData": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "senderGroupingKey": {
+            "type": "string"
+          },
+          "sendResultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/sendMessagesResponseResult"
+            }
+          }
+        }
+      },
+      "sendMessagesResponseResult": {
+        "type": "object",
+        "properties": {
+          "recipientNo": {
+            "type": "string"
+          },
+          "resultCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resultMessage": {
+            "type": "string"
+          },
+          "recipientSeq": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "recipientGroupingKey": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "app_auth": {
+        "type": "http",
+        "description": "Toast API basic auth",
+        "scheme": "basic"
+      }
+    }
+  }
+}

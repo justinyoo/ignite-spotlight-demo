@@ -79,7 +79,7 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
         apiMgmtApiDescription: app.apiName
         apiMgmtApiPath: app.apiPath
         apiMgmtApiFormat: 'openapi+json-link'
-        apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${app.apiName}.json'
+        apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${replace(toLower(app.apiName), '-', '')}.json'
         apiMgmtApiPolicyFormat: 'xml-link'
         apiMgmtApiPolicyValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/apim-api-policy.xml'
     }
