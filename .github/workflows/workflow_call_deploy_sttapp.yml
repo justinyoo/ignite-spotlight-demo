@@ -1,0 +1,69 @@
+name: Deploy SWA to Azure
+
+on:
+  workflow_call:
+      artifact_name:
+        type: string
+        required: false
+        description: Artifact name
+        default: 'app'
+
+env:
+  AZURE_RESOURCE_GROUP_NAME: 'rg-${{ secrets.AZURE_ENV_NAME }}'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AZURE_APIM_NAME: 'apim-${{ secrets.AZURE_ENV_NAME }}'
+      AZURE_STTAPP_NAME: 'sttapp-${{ secrets.AZURE_ENV_NAME }}'
+
+    steps:
+    - name: Download Function app artifact
+      uses: actions/download-artifact@v3
+      with:
+        path: ${{ github.workspace }}/published
+
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Get APIM endpoint
+      shell: bash
+      run: |
+        subscription_id=$(az account show --query "id" -o tsv)
+
+        apim_secret_uri=/subscriptions/$subscription_id/resourceGroups/$AZURE_RESOURCE_GROUP_NAME/providers/Microsoft.ApiManagement/service/$AZURE_APIM_NAME/subscriptions/master/listSecrets
+        api_version=2021-08-01
+        gateway_url=$(az apim show -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_APIM_NAME --query "gatewayUrl" -o tsv)
+        subscription_key=$(az rest --method post --uri $apim_secret_uri\?api-version=$api_version | jq '.primaryKey' -r)
+        apim_endpoint=$gateway_url/kakao/token\?subscription-key=$subscription_key
+
+        echo "::add-mask::$apim_endpoint"
+        echo "APIM_ENDPOINT=$apim_endpoint" >> $GITHUB_ENV
+
+    - name: Get SWA token
+      shell: bash
+      run: |
+        swa_token=$(az staticwebapp secrets list -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_STTAPP_NAME --query "properties.apiKey" -o tsv)
+
+        echo "::add-mask::$swa_token"
+        echo "SWA_TOKEN=$swa_token" >> $GITHUB_ENV
+
+    - name: Update appsettings.json
+      shell: pwsh
+      run: |
+        pushd ${{ github.workspace }}/published/${{ inputs.artifact_name }}-web/wwwroot
+
+        $appsettings = Get-Content -Path ./appsettings.sample.json | ConvertFrom-Json
+        $appsettings.APIM_Endpoint = "${{ env.APIM_ENDPOINT }}"
+        $appsettings | ConvertTo-Json -Depth 100 | Out-File -Path ./appsettings.json -Force
+
+        popd
+
+    - name: Deploy SWA to Azure
+      shell: bash
+      run: |
+        swa deploy -d ${{ env.SWA_TOKEN }} -a ${{ github.workspace }}/published/${{ inputs.artifact_name }}-web/wwwroot --env default

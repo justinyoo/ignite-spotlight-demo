@@ -1,0 +1,68 @@
+name: Deploy Function Apps to Azure
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        type: string
+        required: false
+        description: Artifact name
+        default: 'app'
+
+env:
+  AZURE_RESOURCE_GROUP_NAME: 'rg-${{ secrets.AZURE_ENV_NAME }}'
+
+jobs:
+  deploy_azure:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        suffix: [ 'maps', 'sms', 'sms-verify' ]
+
+    env:
+      AZURE_FNCAPP_NAME: 'fncapp-${{ secrets.AZURE_ENV_NAME }}-${{ matrix.suffix }}'
+
+    steps:
+    - name: Download Function app artifact
+      uses: actions/download-artifact@v3
+      with:
+        path: ${{ github.workspace }}/published
+
+    - name: Zip Function app artifact
+      shell: pwsh
+      run: |
+        $destination_path = "published/fncapp.zip"
+
+        Compress-Archive -Path published/${{ inputs.artifact_name }}-${{ matrix.suffix }}/* -DestinationPath $destination_path
+
+        echo "AZURE_FNCAPP_PATH=$destination_path" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+
+    - name: Sign in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy FunctionApp artifact to Azure
+      shell: bash
+      run: |
+        az functionapp deploy \
+          -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+          -n ${{ env.AZURE_FNCAPP_NAME }} \
+          --src-path ${{ env.AZURE_FNCAPP_PATH }} \
+          --type zip \
+          --verbose
+
+    - name: Update app settings on FunctionApp
+      if: matrix.app == 'maps'
+      shell: bash
+      run: |
+        appsettings_navermap_clientid=$(az functionapp config appsettings set \
+          -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+          -n ${{ env.AZURE_FNCAPP_NAME }} \
+          --settings Maps__Naver__ClientId=${{ secrets.MAPS_NAVER_CLIENTID }})
+
+        appsettings_navermap_clientsecret=$(az functionapp config appsettings set \
+          -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+          -n ${{ env.AZURE_FNCAPP_NAME }} \
+          --settings Maps__Naver__ClientSecret=${{ secrets.MAPS_NAVER_CLIENTSECRET }})

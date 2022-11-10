@@ -1,0 +1,94 @@
+name: 'On Called for Build & Test & Upload'
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        type: string
+        required: false
+        description: Artifact name
+        default: 'app'
+      is_pullrequest:
+        type: string
+        required: false
+        description: Value indicating whether the caller event is pull request or not
+        default: 'false'
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v2
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.x
+
+    - name: Restore NuGet packages
+      shell: bash
+      run: |
+        dotnet restore .
+
+    - name: Build solution
+      shell: bash
+      run: |
+        dotnet build . -c Release
+
+    - name: Test solution
+      shell: bash
+      run: |
+        dotnet test . -c Release
+
+    - name: Create artifacts
+      shell: bash
+      run: |
+        dotnet publish -c Release
+
+    - name: Add app paths to env
+      if: inputs.is_pullrequest == 'false'
+      shell: pwsh
+      run: |
+        $pathMaps = "src/MapsApi/bin/Release/net6.0/publish"
+        $pathSmsFacade = "src/SmsFacadeApi/bin/Release/net6.0/publish"
+        $pathSmsVerifyFacade = "src/SmsVerifyFacadeApi/bin/Release/net6.0/publish"
+        $pathWeb = "src/WebApp/bin/Release/net6.0/publish"
+
+        echo "APP_PATH_MAPS=$pathMaps" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+        echo "APP_PATH_SMS=$pathSmsFacade" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+        echo "APP_PATH_SMS_VERIFY=$pathSmsVerifyFacade" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+        echo "APP_PATH_WEB=$pathWeb" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+
+    - name: Upload app artifact - MAPS
+      if: inputs.is_pullrequest == 'false'
+      uses: actions/upload-artifact@v2
+      with:
+        name: "${{ inputs.artifact_name }}-maps"
+        path: "${{ github.workspace }}/${{ env.APP_PATH_MAPS }}"
+        retention-days: 3
+
+    - name: Upload app artifact - SMS
+      if: inputs.is_pullrequest == 'false'
+      uses: actions/upload-artifact@v2
+      with:
+        name: "${{ inputs.artifact_name }}-sms"
+        path: "${{ github.workspace }}/${{ env.APP_PATH_SMS }}"
+        retention-days: 3
+
+    - name: Upload app artifact - SMS VERIFY
+      if: inputs.is_pullrequest == 'false'
+      uses: actions/upload-artifact@v2
+      with:
+        name: "${{ inputs.artifact_name }}-sms-verify"
+        path: "${{ github.workspace }}/${{ env.APP_PATH_SMS_VERIFY }}"
+        retention-days: 3
+
+    - name: Upload app artifact - WEB
+      if: inputs.is_pullrequest == 'false'
+      uses: actions/upload-artifact@v2
+      with:
+        name: "${{ inputs.artifact_name }}-web"
+        path: "${{ github.workspace }}/${{ env.APP_PATH_WEB }}"
+        retention-days: 3

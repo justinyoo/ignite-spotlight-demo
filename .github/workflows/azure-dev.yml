@@ -1,0 +1,32 @@
+name: 'Azure Dev'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+    inputs:
+      from_portal:
+        type: string
+        description: 'Value indicating whether it's triggered from Azure Portal or not'
+        required: false
+        default: 'false'
+
+jobs:
+  call_azd:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'false'
+    uses: ./.github/workflows/workflow_call_azd.yml
+    secrets: inherit
+
+  call_build_deploy:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
+    uses: ./.github/workflows/workflow_call_push.yml
+    secrets: inherit
+
+  call_build:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/workflow_call_pullrequest.yml
+    secrets: inherit
