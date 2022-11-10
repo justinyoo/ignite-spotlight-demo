@@ -71,9 +71,9 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
     params: {
         name: name
         location: location
-        apiMgmtNameValueName: 'X_FUNCTIONS_KEY'
-        apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY'
-        apiMgmtNameValueValue: ''
+        // apiMgmtNameValueName: 'X_FUNCTIONS_KEY'
+        // apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY'
+        // apiMgmtNameValueValue: fncapps[index].outputs.apikey
         apiMgmtApiName: app.apiName
         apiMgmtApiDisplayName: app.apiName
         apiMgmtApiDescription: app.apiName

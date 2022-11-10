@@ -1,10 +1,10 @@
 param name string
 param location string = resourceGroup().location
 
-param apiMgmtNameValueName string
-param apiMgmtNameValueDisplayName string
-@secure()
-param apiMgmtNameValueValue string
+// param apiMgmtNameValueName string
+// param apiMgmtNameValueDisplayName string
+// @secure()
+// param apiMgmtNameValueValue string
 param apiMgmtApiName string
 param apiMgmtApiDisplayName string
 param apiMgmtApiDescription string
@@ -38,9 +38,9 @@ module apimapi './apiManagementApi.bicep' = {
     params: {
         name: name
         location: location
-        apiMgmtNameValueName: apiMgmtNameValueName
-        apiMgmtNameValueDisplayName: apiMgmtNameValueDisplayName
-        apiMgmtNameValueValue: apiMgmtNameValueValue
+        // apiMgmtNameValueName: apiMgmtNameValueName
+        // apiMgmtNameValueDisplayName: apiMgmtNameValueDisplayName
+        // apiMgmtNameValueValue: apiMgmtNameValueValue
         apiMgmtApiName: apiMgmtApiName
         apiMgmtApiDisplayName: apiMgmtApiDisplayName
         apiMgmtApiDescription: apiMgmtApiDescription
