@@ -33,6 +33,15 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     location: location
 }
 
+module sttapp './staticWebApp.bicep' = {
+    name: 'StaticWebApp'
+    scope: rg
+    params: {
+        name: name
+        location: 'eastasia'
+    }
+}
+
 module apim './provision-apiManagement.bicep' = {
     name: 'ApiManagement'
     scope: rg
@@ -74,7 +83,7 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
         location: location
         apiMgmtNameValueName: 'X_FUNCTIONS_KEY_${replace(toUpper(app.apiName), '-', '_')}'
         apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY_${replace(toUpper(app.apiName), '-', '_')}'
-        apiMgmtNameValueValue: 'abc'
+        apiMgmtNameValueValue: 'to_be_replaced'
         apiMgmtApiName: app.apiName
         apiMgmtApiDisplayName: app.apiName
         apiMgmtApiDescription: app.apiName

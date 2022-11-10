@@ -1,8 +1,6 @@
 param name string
-param suffix string = 'api'
 param location string = resourceGroup().location
 
-param storageContainerName string
 param gitHubBranchName string = 'main'
 @secure()
 param gitHubAccessToken string
@@ -37,13 +35,11 @@ var deploymentScript = {
     name: 'depscrpt-${name}'
     location: location
     resourceName: name
-    suffix: suffix
-    storageContainerName: storageContainerName
     gitHubBranchName: gitHubBranchName
     gitHubAccessToken: gitHubAccessToken
     containerGroupName: 'contgrp-${name}'
     azureCliVersion: '2.40.0'
-    scriptUri: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/Resources/setup-resources.sh'
+    scriptUri: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/setup-resources.sh'
 }
 
 resource ds 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
@@ -68,18 +64,6 @@ resource ds 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
             {
                 name: 'AZ_RESOURCE_NAME'
                 value: deploymentScript.resourceName
-            }
-            {
-                name: 'AZ_RESOURCE_SUFFIX'
-                value: deploymentScript.suffix
-            }
-            {
-                name: 'ST_CONTAINER_NAME'
-                value: deploymentScript.storageContainerName
-            }
-            {
-                name: 'GH_BRANCH_NAME'
-                value: deploymentScript.gitHubBranchName
             }
             {
                 name: 'GH_ACCESS_TOKEN'
