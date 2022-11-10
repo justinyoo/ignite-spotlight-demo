@@ -1,10 +1,10 @@
 param name string
 param location string = resourceGroup().location
 
-// param apiMgmtNameValueName string
-// param apiMgmtNameValueDisplayName string
-// @secure()
-// param apiMgmtNameValueValue string
+param apiMgmtNameValueName string
+param apiMgmtNameValueDisplayName string
+@secure()
+param apiMgmtNameValueValue string
 param apiMgmtApiName string
 param apiMgmtApiDisplayName string
 param apiMgmtApiDescription string
@@ -38,9 +38,9 @@ var apiManagement = {
     name: 'apim-${name}'
     location: location
     type: 'http'
-    // nvName: apiMgmtNameValueName
-    // nvDisplayName: apiMgmtNameValueDisplayName
-    // nvValue: apiMgmtNameValueValue
+    nvName: apiMgmtNameValueName
+    nvDisplayName: apiMgmtNameValueDisplayName
+    nvValue: apiMgmtNameValueValue
     apiName: apiMgmtApiName
     displayName: apiMgmtApiDisplayName
     description: apiMgmtApiDescription
