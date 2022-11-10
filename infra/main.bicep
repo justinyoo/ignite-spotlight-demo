@@ -71,8 +71,8 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
     params: {
         name: name
         location: location
-        apiMgmtNameValueName: 'X_FUNCTIONS_KEY_${replace(app.apiName, '-', '_')}'
-        apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY_${replace(app.apiName, '-', '_')}'
+        apiMgmtNameValueName: 'X_FUNCTIONS_KEY_${replace(toUpper(app.apiName), '-', '_')}'
+        apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY_${replace(toUpper(app.apiName), '-', '_')}'
         apiMgmtNameValueValue: 'abc'
         apiMgmtApiName: app.apiName
         apiMgmtApiDisplayName: app.apiName
@@ -81,7 +81,7 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
         apiMgmtApiFormat: 'openapi+json-link'
         apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${replace(toLower(app.apiName), '-', '')}.json'
         apiMgmtApiPolicyFormat: 'xml-link'
-        apiMgmtApiPolicyValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/apim-api-policy.xml'
+        apiMgmtApiPolicyValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/apim-api-policy-${replace(toLower(app.apiName), '-', '')}.xml'
     }
 }]
 
