@@ -58,14 +58,14 @@ resource apim 'Microsoft.ApiManagement/service@2021-08-01' existing = {
     scope: resourceGroup(apiManagement.groupName)
 }
 
-// resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2021-08-01' = {
-//     name: '${apim.name}/${apiManagement.nvName}'
-//     properties: {
-//         displayName: apiManagement.nvDisplayName
-//         secret: true
-//         value: apiManagement.nvValue
-//     }
-// }
+resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2021-08-01' = {
+    name: '${apim.name}/${apiManagement.nvName}'
+    properties: {
+        displayName: apiManagement.nvDisplayName
+        secret: true
+        value: apiManagement.nvValue
+    }
+}
 
 resource apimapi 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
     name: '${apim.name}/${apiManagement.apiName}'
