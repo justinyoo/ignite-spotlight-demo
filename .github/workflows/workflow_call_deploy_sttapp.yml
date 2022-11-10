@@ -2,6 +2,7 @@ name: Deploy SWA to Azure
 
 on:
   workflow_call:
+    inputs:
       artifact_name:
         type: string
         required: false
