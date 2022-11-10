@@ -87,6 +87,7 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
         apiMgmtApiName: app.apiName
         apiMgmtApiDisplayName: app.apiName
         apiMgmtApiDescription: app.apiName
+        apiMgmtApiServiceUrl: 'https://${fncapps[index].name}.azurewebsites.net/api'
         apiMgmtApiPath: app.apiPath
         apiMgmtApiFormat: 'openapi+json-link'
         apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${replace(toLower(app.apiName), '-', '')}.json'

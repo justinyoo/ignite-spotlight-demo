@@ -8,6 +8,7 @@ param apiMgmtNameValueValue string
 param apiMgmtApiName string
 param apiMgmtApiDisplayName string
 param apiMgmtApiDescription string
+param apiMgmtApiServiceUrl string
 param apiMgmtApiPath string
 @allowed([
     'swagger-json'
@@ -44,6 +45,7 @@ module apimapi './apiManagementApi.bicep' = {
         apiMgmtApiName: apiMgmtApiName
         apiMgmtApiDisplayName: apiMgmtApiDisplayName
         apiMgmtApiDescription: apiMgmtApiDescription
+        apiMgmtApiServiceUrl: apiMgmtApiServiceUrl
         apiMgmtApiPath: apiMgmtApiPath
         apiMgmtApiFormat: apiMgmtApiFormat
         apiMgmtApiValue: apiMgmtApiValue

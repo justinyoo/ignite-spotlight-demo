@@ -16,16 +16,13 @@ on:
         default: 'false'
 
 jobs:
+  # Azure Dev CLI #
   call_azd:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'false'
     uses: ./.github/workflows/workflow_call_azd.yml
     secrets: inherit
 
-  # call_build_deploy:
-  #   if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
-  #   uses: ./.github/workflows/workflow_call_push.yml
-  #   secrets: inherit
-
+  # GitHub Push #
   call_build_test_upload:
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
     uses: ./.github/workflows/workflow_call_build_test_upload.yml
@@ -41,7 +38,6 @@ jobs:
     secrets: inherit
     with:
       artifact_name: 'app'
-
   call_deploy_sttapp:
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
     uses: ./.github/workflows/workflow_call_deploy_sttapp.yml
@@ -51,13 +47,7 @@ jobs:
     with:
       artifact_name: 'app'
 
-
-
-  # call_build:
-  #   if: github.event_name == 'pull_request'
-  #   uses: ./.github/workflows/workflow_call_pullrequest.yml
-  #   secrets: inherit
-
+  # GitHub Pull Request #
   call_build_test:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/workflow_call_build_test_upload.yml

@@ -8,6 +8,7 @@ param apiMgmtNameValueValue string
 param apiMgmtApiName string
 param apiMgmtApiDisplayName string
 param apiMgmtApiDescription string
+param apiMgmtApiServiceUrl string
 param apiMgmtApiPath string
 @allowed([
     'swagger-json'
@@ -44,6 +45,7 @@ var apiManagement = {
     apiName: apiMgmtApiName
     displayName: apiMgmtApiDisplayName
     description: apiMgmtApiDescription
+    serviceUrl: apiMgmtApiServiceUrl
     path: apiMgmtApiPath
     subscriptionRequired: false
     format: apiMgmtApiFormat
@@ -73,6 +75,7 @@ resource apimapi 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
         type: apiManagement.type
         displayName: apiManagement.displayName
         description: apiManagement.description
+        serviceUrl: apiManagement.serviceUrl
         path: apiManagement.path
         subscriptionRequired: apiManagement.subscriptionRequired
         format: apiManagement.format

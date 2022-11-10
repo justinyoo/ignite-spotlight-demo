@@ -1,3 +1,5 @@
+name: 'Azure Dev CLI'
+
 on:
   workflow_call:
 

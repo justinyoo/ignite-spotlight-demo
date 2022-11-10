@@ -36,6 +36,9 @@ var apiManagement = {
 resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
     name: apiManagement.name
     location: apiManagement.location
+    identity: {
+        type: 'SystemAssigned'
+    }
     sku: {
         name: apiManagement.skuName
         capacity: apiManagement.skuCapacity
