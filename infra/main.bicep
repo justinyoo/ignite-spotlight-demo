@@ -61,11 +61,6 @@ module fncapps './provision-functionApp.bicep' = [for (app, index) in apps: {
     }
 }]
 
-// output fncappKeys array = [for (app, index) in apps: {
-//     name: app.apiName
-//     value: fncapps[index].outputs.apikey
-// }]
-
 module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
     name: 'ApiManagementApi_${app.suffix}'
     scope: rg
@@ -76,8 +71,8 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
     params: {
         name: name
         location: location
-        apiMgmtNameValueName: 'X_FUNCTIONS_KEY'
-        apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY'
+        apiMgmtNameValueName: 'X_FUNCTIONS_KEY_${replace(app.apiName, '-', '_')}'
+        apiMgmtNameValueDisplayName: 'X_FUNCTIONS_KEY_${replace(app.apiName, '-', '_')}'
         apiMgmtNameValueValue: 'abc'
         apiMgmtApiName: app.apiName
         apiMgmtApiDisplayName: app.apiName

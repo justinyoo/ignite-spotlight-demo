@@ -97,5 +97,5 @@ resource fncapp 'Microsoft.Web/sites@2022-03-01' = {
 
 output id string = fncapp.id
 output name string = fncapp.name
-// output apikey string = listSecrets(fncapp.id, '2022-03-01').functionKeys.default
+output functionKey string = listSecrets(fncapp.id, '2022-03-01').functionKeys.default
 
