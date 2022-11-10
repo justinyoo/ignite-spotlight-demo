@@ -58,6 +58,7 @@ module fncapps './provision-functionApp.bicep' = [for (app, index) in apps: {
         suffix: app.suffix
         location: location
         storageContainerName: storageContainerName
+        apimApiPath: app.apiPath
     }
 }]
 

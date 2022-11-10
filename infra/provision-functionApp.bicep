@@ -3,6 +3,7 @@ param suffix string
 param location string = resourceGroup().location
 
 param storageContainerName string
+param apimApiPath string
 
 var shortname = '${name}${replace(suffix, '-', '')}'
 var longname = '${name}-${suffix}'
@@ -46,6 +47,8 @@ module fncapp './functionApp.bicep' = {
     params: {
         name: longname
         location: location
+        apimName: 'apim-${name}'
+        apimApiPath: apimApiPath
         storageAccountConnectionString: st.outputs.connectionString
         appInsightsInstrumentationKey: appins.outputs.instrumentationKey
         appInsightsConnectionString: appins.outputs.connectionString

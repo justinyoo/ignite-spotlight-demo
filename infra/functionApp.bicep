@@ -1,6 +1,8 @@
 param name string
 param location string = resourceGroup().location
 
+param apimName string
+param apimApiPath string
 @secure()
 param storageAccountConnectionString string
 param consumptionPlanId string
@@ -8,6 +10,11 @@ param consumptionPlanId string
 param appInsightsInstrumentationKey string
 @secure()
 param appInsightsConnectionString string
+
+var apim = {
+    name: apimName
+    apiPath: apimApiPath
+}
 
 var storage = {
     connectionString: storageAccountConnectionString
@@ -71,24 +78,8 @@ resource fncapp 'Microsoft.Web/sites@2022-03-01' = {
                 }
                 // OpenAPI
                 {
-                    name: 'OpenApi__Version'
-                    value: 'v3'
-                }
-                {
-                    name: 'OpenApi__DocVersion'
-                    value: '1.0.0'
-                }
-                {
-                    name: 'OpenApi__DocTitle'
-                    value: 'Google Maps, Naver Map API Wrapper'
-                }
-                {
-                    name: 'OpenApi__DocDescription'
-                    value: 'This is the proxy API for Google Maps and Naver Maps.'
-                }
-                {
                     name: 'OpenApi__HostNames'
-                    value: 'https://${functionApp.name}.azurewebsites.net/api'
+                    value: 'https://${apim.name}.azure-api.net/${apim.apiPath},https://${functionApp.name}.azurewebsites.net/api'
                 }
             ]
         }
