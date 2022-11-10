@@ -5,7 +5,7 @@ on:
 
 jobs:
   call_build_test_upload:
-    uses: ./.github/workflows/workflow_call_push.yml
+    uses: ./.github/workflows/workflow_call_build_test_upload.yml
     with:
       artifact_name: 'app'
       is_pullrequest: 'false'
