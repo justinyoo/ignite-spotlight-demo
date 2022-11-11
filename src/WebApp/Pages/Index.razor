@@ -40,12 +40,13 @@
 
     protected override void OnInitialized()
     {
-        var links = Settings.Links;
+        // var links = Settings.Links;
+        var baseUrl = "https://apim-ignitekr2022.azure-api.net";
 
-        this.mapsApi = $"{links.Maps.TrimEnd('/')}/swagger/ui";
-        this.kakaoApi = $"{links.Kakao.TrimEnd('/')}/swagger/ui";
-        this.smsApi = $"{links.Sms.TrimEnd('/')}/swagger/ui";
-        this.smsVerifyApi = $"{links.SmsVerify.TrimEnd('/')}/swagger/ui";
+        this.mapsApi = $"{baseUrl}/maps/swagger/ui";
+        this.kakaoApi = $"{baseUrl}/kakao/swagger/ui";
+        this.smsApi = $"{baseUrl}/sms/swagger/ui";
+        this.smsVerifyApi = $"{baseUrl}/sms/verify/swagger/ui";
     }
 }
 
