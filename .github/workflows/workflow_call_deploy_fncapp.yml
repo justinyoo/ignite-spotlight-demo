@@ -11,6 +11,7 @@ on:
 
 env:
   AZURE_RESOURCE_GROUP_NAME: 'rg-${{ secrets.AZURE_ENV_NAME }}'
+  AZURE_APIM_NAME: 'apim-${{ secrets.AZURE_ENV_NAME }}'
 
 jobs:
   deploy_azure:
@@ -18,10 +19,10 @@ jobs:
 
     strategy:
       matrix:
-        suffix: [ 'maps', 'sms', 'sms-verify' ]
+        app: [ { "suffix": "maps", "nv": "MAPS" }, { "suffix": "sms", "nv": "SMS" }, { "suffix": "sms-verify", "nv": "SMS_VERIFY" } ]
 
     env:
-      AZURE_FNCAPP_NAME: 'fncapp-${{ secrets.AZURE_ENV_NAME }}-${{ matrix.suffix }}'
+      AZURE_FNCAPP_NAME: 'fncapp-${{ secrets.AZURE_ENV_NAME }}-${{ matrix.app.suffix }}'
 
     steps:
     - name: Download Function app artifact
@@ -34,7 +35,7 @@ jobs:
       run: |
         $destination_path = "published/fncapp.zip"
 
-        Compress-Archive -Path published/${{ inputs.artifact_name }}-${{ matrix.suffix }}/* -DestinationPath $destination_path
+        Compress-Archive -Path published/${{ inputs.artifact_name }}-${{ matrix.app.suffix }}/* -DestinationPath $destination_path
 
         echo "AZURE_FNCAPP_PATH=$destination_path" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
 
@@ -54,15 +55,29 @@ jobs:
           --verbose
 
     - name: Update app settings on FunctionApp
-      if: matrix.suffix == 'maps'
+      if: matrix.app.suffix == 'maps'
       shell: bash
       run: |
-        appsettings_navermap_clientid=$(az functionapp config appsettings set \
+        fncapp_appsettings_navermap_clientid=$(az functionapp config appsettings set \
           -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
           -n ${{ env.AZURE_FNCAPP_NAME }} \
           --settings Maps__Naver__ClientId=${{ secrets.MAPS_NAVER_CLIENTID }})
 
-        appsettings_navermap_clientsecret=$(az functionapp config appsettings set \
+        fncapp_appsettings_navermap_clientsecret=$(az functionapp config appsettings set \
           -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
           -n ${{ env.AZURE_FNCAPP_NAME }} \
           --settings Maps__Naver__ClientSecret=${{ secrets.MAPS_NAVER_CLIENTSECRET }})
+
+    - name: Update function key on APIM
+      shell: bash
+      run: |
+        fncapp_key=$(az functionapp keys list \
+          -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+          -n ${{ env.AZURE_FNCAPP_NAME }} \
+          --query "functionKeys.default" -o tsv)
+
+        apim_nv=$(az apim nv update \
+          -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+          -n ${{ env.AZURE_APIM_NAME }} \
+          --named-value-id X_FUNCTIONS_KEY_${{ matrix.app.nv }} \
+          --value $fncapp_key)
