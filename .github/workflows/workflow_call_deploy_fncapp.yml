@@ -84,7 +84,7 @@ jobs:
           $appsettings_updated = az functionapp config appsettings set `
             -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} `
             -n ${{ env.AZURE_FNCAPP_NAME }} `
-            --settings $_.name=$_.value
+            --settings $_.name="$($_.value)"
         }
 
     - name: Update function key on APIM
