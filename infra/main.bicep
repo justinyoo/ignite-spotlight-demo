@@ -31,13 +31,20 @@ var apps = [
         apiFormat: 'openapi+json-link'
         apiExtension: 'json'
     }
-    {
-        suffix: 'bff'
-        apiName: 'BFF'
-        apiPath: 'bff'
-        apiFormat: 'openapi-link'
-        apiExtension: 'yaml'
-    }
+    // {
+    //     suffix: 'bff'
+    //     apiName: 'BFF'
+    //     apiPath: 'bff'
+    //     apiFormat: 'openapi-link'
+    //     apiExtension: 'yaml'
+    // }
+    // {
+    //     suffix: 'kakao'
+    //     apiName: 'KAKAO'
+    //     apiPath: 'kakao'
+    //     apiFormat: 'openapi-link'
+    //     apiExtension: 'yaml'
+    // }
 ]
 var storageContainerName = 'openapis'
 

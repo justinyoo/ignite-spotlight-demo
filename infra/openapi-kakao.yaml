@@ -4,7 +4,7 @@ info:
   description: This is API for Kakao
   version: '1.0'
 servers:
-  - url: https://apim-ignitekr2022.azure-api.net/kakao
+  - url: https://kapi.kakao.com
 paths:
   /access-token:
     get:
@@ -39,15 +39,3 @@ components:
           type: string
         thumbnailURL:
           type: string
-  securitySchemes:
-    apiKeyHeader:
-      type: apiKey
-      name: Ocp-Apim-Subscription-Key
-      in: header
-    apiKeyQuery:
-      type: apiKey
-      name: subscription-key
-      in: query
-security:
-  - apiKeyHeader: [ ]
-  - apiKeyQuery: [ ]
