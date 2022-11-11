@@ -21,6 +21,7 @@ namespace IgniteSpotlight.MapsApi.Services
         {
             this._services = new Dictionary<string, IMapService>()
             {
+                { MockMapService.Name, new MockMapService(settings, factory) },
                 { NaverMapService.Name, new NaverMapService(settings, factory) },
             };
         }
