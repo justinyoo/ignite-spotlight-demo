@@ -33,10 +33,10 @@ namespace IgniteSpotlight.MapsApi.Triggers
         public NaverMapsTrigger(IMapServiceFactory factory, ILogger<NaverMapsTrigger> log)
         {
             // Mock service
-            this._service = factory.ThrowIfNullOrDefault().GetMapService(MockMapService.Name);
+            // this._service = factory.ThrowIfNullOrDefault().GetMapService(MockMapService.Name);
 
             // Real service
-            // this._service = factory.ThrowIfNullOrDefault().GetMapService(NaverMapService.Name);
+            this._service = factory.ThrowIfNullOrDefault().GetMapService(NaverMapService.Name);
 
             this._logger = log.ThrowIfNullOrDefault();
         }

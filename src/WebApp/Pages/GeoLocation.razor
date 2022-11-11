@@ -1,5 +1,8 @@
 @page "/geolocation"
+@using IgniteSpotlight.WebApp.Configs
+
 @inject IGeolocationService Geolocation
+@inject EndpointsSettings Endpoints
 
 @if (position == null)
 {
@@ -7,14 +10,22 @@
 }
 else
 {
-    <p>Latitude: @position.Coords.Latitude</p>
-    <p>Longitude: @position.Coords.Longitude</p>
+    <div class="card">
+        <img src="@imageUrl" class="card-img-top" style="width:500px !important; height:500px !important;" alt="현재 위치 - 네이버 맵">
+        <ul class="list-group">
+            <li class="list-group-item">Latitude: @position.Coords.Latitude</li>
+            <li class="list-group-item">Longitude: @position.Coords.Longitude</li>
+        </ul>
+    </div>
+
+
 }
 
 
 @code {
     protected GeolocationPosition? position;
     protected GeolocationPositionError? error;
+    protected string? imageUrl;
 
     private PositionOptions _options = new PositionOptions()
     {
@@ -37,6 +48,8 @@ else
     public void OnPositionReceived(GeolocationPosition position)
     {
         this.position = position;
+        this.imageUrl = string.Format(Endpoints.Maps, position.Coords.Latitude, position.Coords.Longitude, 12);
+
         StateHasChanged();
     }
 
@@ -44,6 +57,7 @@ else
     public void OnPositionError(GeolocationPositionError positionError)
     {
         this.error = positionError;
+
         StateHasChanged();
     }
 }
