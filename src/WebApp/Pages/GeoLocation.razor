@@ -46,8 +46,9 @@ else
     {
         this.position = position;
 
-        var endpoints = Config.GetSection(EndpointsSettings.Name).Get<EndpointsSettings>();
-        this.imageUrl = string.Format(endpoints.Maps, position.Coords.Latitude, position.Coords.Longitude, 12);
+        // var endpoints = Config.GetSection(EndpointsSettings.Name).Get<EndpointsSettings>();
+        var baseUrl = "https://apim-ignitekr2022.azure-api.net";
+        this.imageUrl = $"{baseUrl}/maps/naver/image?lat={position.Coords.Latitude}&long={position.Coords.Longitude}&zoom={12}";
 
         StateHasChanged();
     }
