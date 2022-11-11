@@ -38,7 +38,8 @@
         <return-response>
           <set-status code="301" reason="Moved Permanently" />
           <set-header name="Location" exists-action="override">
-            <value>https://github.com/justinyoo/ignite-spotlight-demo</value>
+            <value>https://{{STTAPP_HOST}}</value>
+            <!-- <value>https://github.com/justinyoo/ignite-spotlight-demo</value> -->
             <!-- <value>https://{{RESOURCE_NAME}}.azure-api.net/maps/swagger/ui</value> -->
           </set-header>
         </return-response>
