@@ -17,10 +17,10 @@ on:
 
 jobs:
   # Azure Dev CLI #
-  call_azd:
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'false'
-    uses: ./.github/workflows/workflow_call_azd.yml
-    secrets: inherit
+  # call_azd:
+  #   if: github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'false'
+  #   uses: ./.github/workflows/workflow_call_azd.yml
+  #   secrets: inherit
 
   # GitHub Push #
   call_build_test_upload:
