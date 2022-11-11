@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using Configs
 
 @inject IConfiguration Config
 
@@ -40,12 +39,12 @@
 
     protected override void OnInitialized()
     {
-        var links = Config.GetSection(LinksSettings.Name).Get<LinksSettings>();
+        // var links = Config.GetSection(LinksSettings.Name).Get<LinksSettings>();
 
-        this.mapsApi = $"{links.Maps.TrimEnd('/')}/swagger/ui";
-        this.kakaoApi = $"{links.Kakao.TrimEnd('/')}/swagger/ui";
-        this.smsApi = $"{links.Sms.TrimEnd('/')}/swagger/ui";
-        this.smsVerifyApi = $"{links.SmsVerify.TrimEnd('/')}/swagger/ui";
+        this.mapsApi = $"{Config["Links:Maps"].TrimEnd('/')}/swagger/ui";
+        this.kakaoApi = $"{Config["Links:Kakao"].TrimEnd('/')}/swagger/ui";
+        this.smsApi = $"{Config["Links:Sms"].TrimEnd('/')}/swagger/ui";
+        this.smsVerifyApi = $"{Config["Links:SmsVerify"].TrimEnd('/')}/swagger/ui";
     }
 }
 
