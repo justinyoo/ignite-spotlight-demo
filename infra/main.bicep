@@ -14,16 +14,29 @@ var apps = [
         suffix: 'maps'
         apiName: 'MAPS'
         apiPath: 'maps'
+        apiFormat: 'openapi+json-link'
+        apiExtension: 'json'
     }
     {
         suffix: 'sms'
         apiName: 'SMS'
         apiPath: 'sms'
+        apiFormat: 'openapi+json-link'
+        apiExtension: 'json'
     }
     {
         suffix: 'sms-verify'
         apiName: 'SMS-VERIFY'
         apiPath: 'sms/verify'
+        apiFormat: 'openapi+json-link'
+        apiExtension: 'json'
+    }
+    {
+        suffix: 'bff'
+        apiName: 'BFF'
+        apiPath: 'bff'
+        apiFormat: 'openapi-link'
+        apiExtension: 'yaml'
     }
 ]
 var storageContainerName = 'openapis'
@@ -89,8 +102,8 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
         apiMgmtApiDescription: app.apiName
         apiMgmtApiServiceUrl: 'https://fncapp-${name}-${app.suffix}.azurewebsites.net/api'
         apiMgmtApiPath: app.apiPath
-        apiMgmtApiFormat: 'openapi+json-link'
-        apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${replace(toLower(app.apiName), '-', '')}.json'
+        apiMgmtApiFormat: app.apiFormat
+        apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${replace(toLower(app.apiName), '-', '')}.${app.apiExtension}'
         apiMgmtApiPolicyFormat: 'xml-link'
         apiMgmtApiPolicyValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/apim-api-policy-${replace(toLower(app.apiName), '-', '')}.xml'
     }
