@@ -75,17 +75,19 @@ jobs:
 
     - name: Update app settings on FunctionApp - SMS/SMS-VERIFY
       if: matrix.app.suffix != 'maps'
-      shell: pwsh
+      shell: bash
       run: |
-        $filename = "appsettings-$("${{ matrix.app.suffix }}" -replace '-', '').json"
-        $uri = "https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${{ inputs.github_branch_name }}/infra/$filename"
-        $appsettings = Invoke-RestMethod -Method Get -Uri $uri
-        $appsettings | ForEach-Object {
-          $appsettings_updated = az functionapp config appsettings set `
-            -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} `
-            -n ${{ env.AZURE_FNCAPP_NAME }} `
-            --settings $_.name="$($_.value)"
-        }
+        filename="appsettings-$(echo "${{ matrix.app.suffix }}" | sed s/-//).json"
+        uri="https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${{ inputs.github_branch_name }}/infra/$filename"
+        appsettings=$(curl $uri)
+        appsettings_length=$(echo $appsettings | jq '. | length')
+        for (( i=0; i<$appsettings_length; i++ ))
+        do
+          appsettings_name=$(echo $appsettings | jq --arg i "$i" '.[$i|fromjson].name' -r)
+          appsettings_value=$(echo $appsettings | jq --arg i "$i" '.[$i|fromjson].value' -r)
+
+          appsettings_updated=$(az functionapp config appsettings set -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} -n ${{ env.AZURE_FNCAPP_NAME }} --settings $appsettings_name="$appsettings_value")
+        done
 
     - name: Update function key on APIM
       shell: bash
