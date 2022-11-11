@@ -85,11 +85,11 @@ jobs:
       run: |
         sttapp_host=$(az staticwebapp show \
           -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
-          -n sttapp-ignitekr2022 \
+          -n ${{ env.AZURE_STTAPP_NAME }} \
           --query "defaultHostname" -o tsv)
 
         apim_nv=$(az apim nv update \
           -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
-          -n ${{ env.AZURE_STTAPP_NAME }} \
+          -n ${{ env.AZURE_APIM_NAME }} \
           --named-value-id STTAPP_HOST \
           --value $sttapp_host)
