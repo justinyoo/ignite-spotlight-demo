@@ -31,19 +31,16 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Get APIM endpoint
-      shell: bash
-      run: |
-        subscription_id=$(az account show --query "id" -o tsv)
+    # - name: Get APIM endpoint
+    #   shell: bash
+    #   run: |
+    #     subscription_id=$(az account show --query "id" -o tsv)
 
-        apim_secret_uri=/subscriptions/$subscription_id/resourceGroups/$AZURE_RESOURCE_GROUP_NAME/providers/Microsoft.ApiManagement/service/$AZURE_APIM_NAME/subscriptions/master/listSecrets
-        api_version=2021-08-01
-        gateway_url=$(az apim show -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_APIM_NAME --query "gatewayUrl" -o tsv)
-        subscription_key=$(az rest --method post --uri $apim_secret_uri\?api-version=$api_version | jq '.primaryKey' -r)
-        apim_endpoint=$gateway_url/kakao/token\?subscription-key=$subscription_key
+    #     gateway_url=$(az apim show -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_APIM_NAME --query "gatewayUrl" -o tsv)
+    #     apim_endpoint=$gateway_url/kakao/access-token
 
-        echo "::add-mask::$apim_endpoint"
-        echo "APIM_ENDPOINT=$apim_endpoint" >> $GITHUB_ENV
+    #     echo "::add-mask::$apim_endpoint"
+    #     echo "APIM_ENDPOINT=$apim_endpoint" >> $GITHUB_ENV
 
     - name: Get SWA token
       shell: bash
@@ -58,9 +55,9 @@ jobs:
       run: |
         pushd ${{ github.workspace }}/published/${{ inputs.artifact_name }}-web/wwwroot
 
-        $appsettings = Get-Content -Path ./appsettings.sample.json | ConvertFrom-Json
-        $appsettings.APIM_Endpoint = "${{ env.APIM_ENDPOINT }}"
-        $appsettings | ConvertTo-Json -Depth 100 | Out-File -Path ./appsettings.json -Force
+        $(Get-Content -Path ./appsettings.sample.json -Raw) -replace "<AZURE_APIM_NAME>", "${{ env.AZURE_APIM_NAME }}" | `
+          ConvertFrom-Json | ConvertTo-Json -Depth 10 | `
+          Out-File -Path ./appsettings.json -Force
 
         popd
 
