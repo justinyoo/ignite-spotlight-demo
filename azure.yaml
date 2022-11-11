@@ -10,25 +10,25 @@ infra:
 pipeline:
   provider: "github"
 
-services:
-  maps:
-    project: './src/MapsApi'
-    host: function
-    language: csharp
-    resourceName: fncapp-ignitekr2022-maps
-  sms:
-    project: './src/SmsFacadeApi'
-    host: function
-    language: csharp
-    resourceName: fncapp-ignitekr2022-sms
-  smsverify:
-    project: './src/SmsVerifyFacadeApi'
-    host: function
-    language: csharp
-    resourceName: fncapp-ignitekr2022-sms-verify
-  web:
-    project: './src/WebApp'
-    host: staticwebapp
-    language: csharp
-    dist: 'bin/wwwroot'
-    resourceName: sttapp-ignitekr2022
+# services:
+#   maps:
+#     project: './src/MapsApi'
+#     host: function
+#     language: csharp
+#     resourceName: fncapp-ignitekr2022-maps
+#   sms:
+#     project: './src/SmsFacadeApi'
+#     host: function
+#     language: csharp
+#     resourceName: fncapp-ignitekr2022-sms
+#   smsverify:
+#     project: './src/SmsVerifyFacadeApi'
+#     host: function
+#     language: csharp
+#     resourceName: fncapp-ignitekr2022-sms-verify
+#   web:
+#     project: './src/WebApp'
+#     host: staticwebapp
+#     language: csharp
+#     dist: 'bin/wwwroot'
+#     resourceName: sttapp-ignitekr2022

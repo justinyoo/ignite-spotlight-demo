@@ -96,17 +96,17 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
     }
 }]
 
-module depscrpt './deploymentScript.bicep' = {
-    name: 'DeploymentScript'
-    scope: rg
-    dependsOn: [
-        apim
-        fncapps
-    ]
-    params: {
-        name: name
-        location: location
-        gitHubBranchName: gitHubBranchName
-        gitHubAccessToken: gitHubAccessToken
-    }
-}
+// module depscrpt './deploymentScript.bicep' = {
+//     name: 'DeploymentScript'
+//     scope: rg
+//     dependsOn: [
+//         apim
+//         fncapps
+//     ]
+//     params: {
+//         name: name
+//         location: location
+//         gitHubBranchName: gitHubBranchName
+//         gitHubAccessToken: gitHubAccessToken
+//     }
+// }
