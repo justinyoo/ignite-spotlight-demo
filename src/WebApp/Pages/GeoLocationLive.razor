@@ -1,4 +1,4 @@
-@page "/geolocation"
+@page "/geolocation/live"
 @using Configs
 @using Microsoft.AspNetCore.WebUtilities
 
@@ -19,7 +19,7 @@ else
             <li class="list-group-item">Longitude: @position.Coords.Longitude</li>
         </ul>
         <div class="card-body">
-            <a class="btn btn-primary" href="/geolocation/live">라이브</a>
+            <a class="btn btn-primary" href="/geolocation">개발</a>
         </div>
     </div>
 }
@@ -53,7 +53,7 @@ else
 
         // var endpoints = Config.GetSection(EndpointsSettings.Name).Get<EndpointsSettings>();
         var baseUrl = "https://apim-ignitekr2022.azure-api.net";
-        var imageUrl = $"{baseUrl}/maps/naver/image?lat={position.Coords.Latitude}&long={position.Coords.Longitude}&zoom={12}";
+        var imageUrl = $"{baseUrl}/maps/naver/image?lat={position.Coords.Latitude}&long={position.Coords.Longitude}&zoom={12}&flag=live";
         this.imageUrl = imageUrl;
 
         StateHasChanged();
