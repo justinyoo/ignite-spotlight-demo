@@ -1,0 +1,53 @@
+openapi: 3.0.1
+info:
+  title: KAKAO
+  description: This is API for Kakao
+  version: '1.0'
+servers:
+  - url: https://apim-ignitekr2022.azure-api.net/kakao
+paths:
+  /access-token:
+    get:
+      summary: Access Token
+      operationId: access-token
+      responses:
+        '200':
+          description: The OK response
+          content:
+            text/html:
+              schema:
+                type: string
+  /v1/api/talk/profile:
+    get:
+      summary: Profile
+      operationId: profile
+      responses:
+        '200':
+          description: The OK response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/profileResponse'
+components:
+  schemas:
+    profileResponse:
+      type: object
+      properties:
+        nickName:
+          type: string
+        profileImageURL:
+          type: string
+        thumbnailURL:
+          type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
