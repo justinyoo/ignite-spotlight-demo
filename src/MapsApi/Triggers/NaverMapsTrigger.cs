@@ -22,6 +22,7 @@ namespace IgniteSpotlight.MapsApi.Triggers
     /// </summary>
     public class NaverMapsTrigger
     {
+        private readonly IMapService _mock;
         private readonly IMapService _service;
         private readonly ILogger<NaverMapsTrigger> _logger;
 
@@ -33,7 +34,7 @@ namespace IgniteSpotlight.MapsApi.Triggers
         public NaverMapsTrigger(IMapServiceFactory factory, ILogger<NaverMapsTrigger> log)
         {
             // Mock service
-            // this._service = factory.ThrowIfNullOrDefault().GetMapService(MockMapService.Name);
+            this._mock = factory.ThrowIfNullOrDefault().GetMapService(MockMapService.Name);
 
             // Real service
             this._service = factory.ThrowIfNullOrDefault().GetMapService(NaverMapService.Name);
@@ -58,7 +59,10 @@ namespace IgniteSpotlight.MapsApi.Triggers
         {
             this._logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var bytes = await this._service.GetMapAsync(req).ConfigureAwait(false);
+            var flag = ((string)req.Query["flag"]).ToLowerInvariant();
+            var bytes = flag == "live"
+                        ? await this._service.GetMapAsync(req).ConfigureAwait(false)
+                        : await this._mock.GetMapAsync(req).ConfigureAwait(false);
             var result = new MapData() { Base64Image = $"data:image/png;base64,{Convert.ToBase64String(bytes)}" };
 
             return new OkObjectResult(result);
@@ -80,7 +84,10 @@ namespace IgniteSpotlight.MapsApi.Triggers
         {
             this._logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var bytes = await this._service.GetMapAsync(req).ConfigureAwait(false);
+            var flag = ((string)req.Query["flag"]).ToLowerInvariant();
+            var bytes = flag == "live"
+                        ? await this._service.GetMapAsync(req).ConfigureAwait(false)
+                        : await this._mock.GetMapAsync(req).ConfigureAwait(false);
 
             return new FileContentResult(bytes, "image/png");
         }

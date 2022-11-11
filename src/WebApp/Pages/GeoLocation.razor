@@ -1,8 +1,10 @@
 @page "/geolocation"
 @using Configs
+@using Microsoft.AspNetCore.WebUtilities
 
 @inject IGeolocationService Geolocation
 @inject IConfiguration Config
+@inject NavigationManager NavManager
 
 @if (position == null)
 {
@@ -48,7 +50,16 @@ else
 
         // var endpoints = Config.GetSection(EndpointsSettings.Name).Get<EndpointsSettings>();
         var baseUrl = "https://apim-ignitekr2022.azure-api.net";
-        this.imageUrl = $"{baseUrl}/maps/naver/image?lat={position.Coords.Latitude}&long={position.Coords.Longitude}&zoom={12}";
+        var imageUrl = $"{baseUrl}/maps/naver/image?lat={position.Coords.Latitude}&long={position.Coords.Longitude}&zoom={12}";
+
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        var queries = QueryHelpers.ParseQuery(uri.Query);
+        if (queries.TryGetValue("flag", out var flag))
+        {
+            imageUrl += $"&flag={flag}";
+        }
+
+        this.imageUrl = imageUrl;
 
         StateHasChanged();
     }
