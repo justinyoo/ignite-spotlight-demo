@@ -3,8 +3,7 @@
   "configurations": {
     "ignite-spotlight-demo": {
       "appLocation": "src/WebApp",
-      "outputLocation": "bin/wwwroot",
-      "appBuildCommand": "dotnet publish -c Release -o bin",
+      "outputLocation": "wwwroot",
       "run": "dotnet watch run",
       "appDevserverUrl": "http://localhost:5000"
     }
