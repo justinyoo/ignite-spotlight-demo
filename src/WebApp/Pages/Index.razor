@@ -1,7 +1,7 @@
 ﻿@page "/"
-@using IgniteSpotlight.WebApp.Configs
+@using Configs
 
-@inject LinksSettings Links
+@inject IConfiguration Config
 
 <PageTitle>Home</PageTitle>
 
@@ -40,10 +40,12 @@
 
     protected override void OnInitialized()
     {
-        this.mapsApi = $"{Links.Maps.TrimEnd('/')}/swagger/ui";
-        this.kakaoApi = $"{Links.Kakao.TrimEnd('/')}/swagger/ui";
-        this.smsApi = $"{Links.Sms.TrimEnd('/')}/swagger/ui";
-        this.smsVerifyApi = $"{Links.SmsVerify.TrimEnd('/')}/swagger/ui";
+        var links = Config.GetSection(LinksSettings.Name).Get<LinksSettings>();
+
+        this.mapsApi = $"{links.Maps.TrimEnd('/')}/swagger/ui";
+        this.kakaoApi = $"{links.Kakao.TrimEnd('/')}/swagger/ui";
+        this.smsApi = $"{links.Sms.TrimEnd('/')}/swagger/ui";
+        this.smsVerifyApi = $"{links.SmsVerify.TrimEnd('/')}/swagger/ui";
     }
 }
 

@@ -1,8 +1,8 @@
 @page "/geolocation"
-@using IgniteSpotlight.WebApp.Configs
+@using Configs
 
 @inject IGeolocationService Geolocation
-@inject EndpointsSettings Endpoints
+@inject IConfiguration Config
 
 @if (position == null)
 {
@@ -17,10 +17,7 @@ else
             <li class="list-group-item">Longitude: @position.Coords.Longitude</li>
         </ul>
     </div>
-
-
 }
-
 
 @code {
     protected GeolocationPosition? position;
@@ -48,7 +45,9 @@ else
     public void OnPositionReceived(GeolocationPosition position)
     {
         this.position = position;
-        this.imageUrl = string.Format(Endpoints.Maps, position.Coords.Latitude, position.Coords.Longitude, 12);
+
+        var endpoints = Config.GetSection(EndpointsSettings.Name).Get<EndpointsSettings>();
+        this.imageUrl = string.Format(endpoints.Maps, position.Coords.Latitude, position.Coords.Longitude, 12);
 
         StateHasChanged();
     }
