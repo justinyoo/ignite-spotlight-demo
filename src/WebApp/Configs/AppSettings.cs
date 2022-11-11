@@ -2,8 +2,8 @@ namespace IgniteSpotlight.WebApp.Configs
 {
     public class AppSettings
     {
-        public virtual LinksSettings Links { get; set; }
-        public virtual EndpointsSettings Endpoints { get; set; }
+        public virtual LinksSettings Links { get; set; } = new LinksSettings();
+        public virtual EndpointsSettings Endpoints { get; set; } = new EndpointsSettings();
 
     }
 
