@@ -54,7 +54,7 @@ jobs:
           --verbose
 
     - name: Update app settings on FunctionApp
-      if: matrix.app == 'maps'
+      if: matrix.suffix == 'maps'
       shell: bash
       run: |
         appsettings_navermap_clientid=$(az functionapp config appsettings set \

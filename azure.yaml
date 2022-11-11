@@ -1,9 +1,34 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
 name: ignite-spotlight-demo
+
 infra:
-    provider: "bicep"
-    path: "infra"
-    module: "main"
+  provider: "bicep"
+  path: "infra"
+  module: "main"
+
 pipeline:
-    provider: "github"
+  provider: "github"
+
+services:
+  maps:
+    project: './src/MapsApi'
+    host: function
+    language: csharp
+    resourceName: fncapp-ignitekr2022-maps
+  sms:
+    project: './src/SmsFacadeApi'
+    host: function
+    language: csharp
+    resourceName: fncapp-ignitekr2022-sms
+  smsverify:
+    project: './src/SmsVerifyFacadeApi'
+    host: function
+    language: csharp
+    resourceName: fncapp-ignitekr2022-sms-verify
+  web:
+    project: './src/WebApp'
+    host: staticwebapp
+    language: csharp
+    dist: 'bin/wwwroot'
+    resourceName: sttapp-ignitekr2022
