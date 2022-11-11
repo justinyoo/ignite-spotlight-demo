@@ -40,6 +40,12 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true'
     uses: ./.github/workflows/workflow_call_set_secrets.yml
     secrets: inherit
+    with:
+      azure_env_name: ${{ github.event.inputs.azure_env_name }}
+      azure_location: ${{ github.event.inputs.azure_location }}
+      azure_subscription_id: ${{ github.event.inputs.azure_subscription_id }}
+      # azure_principal_id: ${{ github.event.inputs.azure_principal_id }}
+
 
   # GitHub Push #
   call_build_test_upload:
