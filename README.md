@@ -55,3 +55,18 @@ Ignite Spotlight on Korea 행사에 사용할 데모 세션을 위한 리포지�
 # Update local.settings.json
 pwsh -c "Invoke-RestMethod https://aka.ms/azfunc-openapi/add-codespaces.ps1 | Invoke-Expression"
 ```
+
+
+## 데모 1. APIM 활용 프론트엔드와 백엔드 디커플링 - 네이버 맵 ##
+
+TBD
+
+
+## 데모 2. APIM 활용 OAuth 인증과정 간소화 - 카카오 프로필 ##
+
+TBD
+
+
+## 데모 3. APIM 활용 BFF 작성 - 파워 플랫폼 커스텀 커넥터 ##
+
+TBD
