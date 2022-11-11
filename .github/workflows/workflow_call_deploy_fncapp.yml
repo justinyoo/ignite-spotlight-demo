@@ -8,6 +8,11 @@ on:
         required: false
         description: Artifact name
         default: 'app'
+      github_branch_name:
+        type: string
+        required: false
+        description: GitHub branch name
+        default: 'main'
 
 env:
   AZURE_RESOURCE_GROUP_NAME: 'rg-${{ secrets.AZURE_ENV_NAME }}'
@@ -54,7 +59,7 @@ jobs:
           --type zip \
           --verbose
 
-    - name: Update app settings on FunctionApp
+    - name: Update app settings on FunctionApp - MAPS
       if: matrix.app.suffix == 'maps'
       shell: bash
       run: |
@@ -67,6 +72,20 @@ jobs:
           -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
           -n ${{ env.AZURE_FNCAPP_NAME }} \
           --settings Maps__Naver__ClientSecret=${{ secrets.MAPS_NAVER_CLIENTSECRET }})
+
+    - name: Update app settings on FunctionApp - SMS/SMS-VERIFY
+      if: matrix.app.suffix != 'maps'
+      shell: pwsh
+      run: |
+        $filename = "appsettings-$("${{ matrix.app.suffix }}" -replace '-', '').json"
+        $uri = "https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${{ inputs.github_branch_name }}/infra/$filename"
+        $appsettings = Invoke-RestMethod -Method Get -Uri $uri
+        $appsettings | ForEach-Object {
+          $appsettings_updated = az functionapp config appsettings set `
+            -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} `
+            -n ${{ env.AZURE_FNCAPP_NAME }} `
+            --settings $_.name=$_.value
+        }
 
     - name: Update function key on APIM
       shell: bash
