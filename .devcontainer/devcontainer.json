@@ -125,7 +125,7 @@
         "explorer.sortOrder": "type",
         "explorer.fileNesting.enabled": true,
         "explorer.fileNesting.patterns": {
-          "*.bicep": "${capture}.json",
+          "*.bicep": "${capture}.json, ${capture}.parameters.json",
           "*.razor": "${capture}.razor.css",
           "*.js": "${capture}.js.map"
         }

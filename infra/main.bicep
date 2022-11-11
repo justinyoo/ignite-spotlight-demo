@@ -7,7 +7,7 @@ param apiManagementPublisherName string = 'Ignite Spotlight Demo'
 param apiManagementPublisherEmail string = 'apim@contoso.com'
 param gitHubBranchName string = 'main'
 @secure()
-param gitHubAccessToken string = ''
+param gitHubAccessToken string
 
 var apps = [
     {
@@ -87,7 +87,7 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
         apiMgmtApiName: app.apiName
         apiMgmtApiDisplayName: app.apiName
         apiMgmtApiDescription: app.apiName
-        apiMgmtApiServiceUrl: 'https://${fncapps[index].name}.azurewebsites.net/api'
+        apiMgmtApiServiceUrl: 'https://fncapp-${name}-${app.suffix}.azurewebsites.net/api'
         apiMgmtApiPath: app.apiPath
         apiMgmtApiFormat: 'openapi+json-link'
         apiMgmtApiValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/openapi-${replace(toLower(app.apiName), '-', '')}.json'
@@ -96,19 +96,17 @@ module apis './provision-apiManagementApi.bicep' = [for (app, index) in apps: {
     }
 }]
 
-// module depscrpt './deploymentScript.bicep' = {
-//     name: 'DeploymentScript'
-//     scope: rg
-//     dependsOn: [
-//         apim
-//         fncapp
-//     ]
-//     params: {
-//         name: name
-//         suffix: suffix
-//         location: location
-//         gitHubBranchName: gitHubBranchName
-//         storageContainerName: storageContainerName
-//         gitHubAccessToken: gitHubAccessToken
-//     }
-// }
+module depscrpt './deploymentScript.bicep' = {
+    name: 'DeploymentScript'
+    scope: rg
+    dependsOn: [
+        apim
+        fncapps
+    ]
+    params: {
+        name: name
+        location: location
+        gitHubBranchName: gitHubBranchName
+        gitHubAccessToken: gitHubAccessToken
+    }
+}

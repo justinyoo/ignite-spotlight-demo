@@ -62,8 +62,16 @@ resource ds 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
         }
         environmentVariables: [
             {
-                name: 'AZ_RESOURCE_NAME'
+                name: 'AZURE_ENV_NAME'
                 value: deploymentScript.resourceName
+            }
+            {
+                name: 'AZURE_LOCATION'
+                value: deploymentScript.location
+            }
+            {
+                name: 'AZURE_SUBSCRIPTION_ID'
+                value: subscription().subscriptionId
             }
             {
                 name: 'GH_ACCESS_TOKEN'
