@@ -1,0 +1,56 @@
+name: 'Azure Dev'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+    inputs:
+      from_portal:
+        type: string
+        required: false
+        description: 'Value indicating whether it is triggered from Azure Portal or not'
+        default: 'false'
+
+jobs:
+  # Azure Dev CLI #
+  # call_azd:
+  #   if: github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'false'
+  #   uses: ./.github/workflows/workflow_call_azd.yml
+  #   secrets: inherit
+
+  # GitHub Push #
+  call_build_test_upload:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
+    uses: ./.github/workflows/workflow_call_build_test_upload.yml
+    with:
+      artifact_name: 'app'
+      is_pullrequest: 'false'
+
+  call_deploy_fncapp:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
+    uses: ./.github/workflows/workflow_call_deploy_fncapp.yml
+    needs:
+    - call_build_test_upload
+    secrets: inherit
+    with:
+      artifact_name: 'app'
+  call_deploy_sttapp:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.from_portal == 'true')
+    uses: ./.github/workflows/workflow_call_deploy_sttapp.yml
+    needs:
+    - call_build_test_upload
+    secrets: inherit
+    with:
+      artifact_name: 'app'
+
+  # GitHub Pull Request #
+  call_build_test:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/workflow_call_build_test_upload.yml
+    with:
+      artifact_name: 'app'
+      is_pullrequest: 'true'
