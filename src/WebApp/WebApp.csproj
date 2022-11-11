@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,6 +7,7 @@
 
     <AssemblyName>IgniteSpotlight.WebApp</AssemblyName>
     <RootNamespace>IgniteSpotlight.WebApp</RootNamespace>
+    <UserSecretsId>346dcef8-a668-43af-aa0e-41420df85dea</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

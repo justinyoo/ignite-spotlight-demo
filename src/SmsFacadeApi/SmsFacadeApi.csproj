@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,7 @@
 
     <AssemblyName>IgniteSpotlight.SmsFacadeApi</AssemblyName>
     <RootNamespace>IgniteSpotlight.SmsFacadeApi</RootNamespace>
+    <UserSecretsId>4a6f5f14-954d-45c7-8875-89e3e8c324da</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

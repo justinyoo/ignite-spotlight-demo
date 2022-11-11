@@ -5,6 +5,7 @@
 
     <AssemblyName>IgniteSpotlight.MapsApi</AssemblyName>
     <RootNamespace>IgniteSpotlight.MapsApi</RootNamespace>
+    <UserSecretsId>e42901a2-663f-4667-b911-3606bc9fd14c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

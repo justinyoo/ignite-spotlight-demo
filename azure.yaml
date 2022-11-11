@@ -15,20 +15,20 @@ services:
     project: './src/MapsApi'
     host: function
     language: csharp
-    resourceName: fncapp-ignitekr-maps
+    resourceName: fncapp-ignitekorea-maps
   sms:
     project: './src/SmsFacadeApi'
     host: function
     language: csharp
-    resourceName: fncapp-ignitekr-sms
+    resourceName: fncapp-ignitekorea-sms
   smsverify:
     project: './src/SmsVerifyFacadeApi'
     host: function
     language: csharp
-    resourceName: fncapp-ignitekr-sms-verify
+    resourceName: fncapp-ignitekorea-sms-verify
   web:
     project: './src/WebApp'
     host: staticwebapp
     language: csharp
     dist: 'bin/wwwroot'
-    resourceName: sttapp-ignitekr
+    resourceName: sttapp-ignitekorea
