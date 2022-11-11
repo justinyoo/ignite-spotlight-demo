@@ -84,7 +84,9 @@ namespace IgniteSpotlight.MapsApi.Triggers
         {
             this._logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var flag = ((string)req.Query["flag"]).ToLowerInvariant();
+            var flag = req.Query.TryGetValue("flag", out var value)
+                       ? value.ToString().ToLowerInvariant()
+                       : string.Empty;
             var bytes = flag == "live"
                         ? await this._service.GetMapAsync(req).ConfigureAwait(false)
                         : await this._mock.GetMapAsync(req).ConfigureAwait(false);
