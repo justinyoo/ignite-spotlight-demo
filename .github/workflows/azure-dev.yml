@@ -16,8 +16,9 @@ on:
         default: 'false'
       azure_env_name:
         type: string
-        required: true
+        required: false
         description: 'Azure environment (resource) name'
+        default: ''
       azure_location:
         type: string
         required: false
@@ -25,12 +26,14 @@ on:
         default: 'koreacentral'
       azure_subscription_id:
         type: string
-        required: true
+        required: false
         description: 'Azure subscription ID'
+        default: ''
       # azure_principal_id:
       #   type: string
-      #   required: true
+      #   required: false
       #   description: 'Azure service principal ID'
+      #   default: ''
 
 permissions: write-all
 
