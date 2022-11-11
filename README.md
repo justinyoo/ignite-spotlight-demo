@@ -11,6 +11,7 @@ Ignite Spotlight on Korea 행사에 사용할 데모 세션을 위한 리포지�
 * [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/install-azd)
 * [Azure Functions Core Tools](https://learn.microsoft.com/ko-kr/azure/azure-functions/functions-run-local)
 * [Static Web App CLI](https://azure.github.io/static-web-apps-cli/docs/use/install)
+* [PowerShell](https://learn.microsoft.com/ko-kr/powershell/scripting/install/installing-powershell)
 
 
 ## 시작하기 ##
@@ -32,21 +33,25 @@ Ignite Spotlight on Korea 행사에 사용할 데모 세션을 위한 리포지�
     ```bash
     # Azure Developer CLI: 초기화
     azd init
+    ```
 
+   이후 아래 명령어를 이용해 애플리케이션을 프로비저닝하고 배포합니다.
+
+    ```bash
     # Azure Developer CLI: 프로비저닝 및 앱 배포
     azd up
     ```
 
    위 명령어를 실행시킨 후, `AZURE_ENV_NAME` 값을 확인합니다.
 
-4. 애저 포털에서 API 매니지먼트 인스턴스에 접속합니다.
-   * 지도: `https://apim-<AZURE_ENV_NAME>.azure-api.net/maps/swagger/ui`
-   * 문자메시지 보내기: `https://apim-<AZURE_ENV_NAME>.azure-api.net/sms/swagger/ui`
-   * 문자메시지 발신자: `https://apim-<AZURE_ENV_NAME>.azure-api.net/sms/verify/swagger/ui`
-
-5. 애저 포털에서 애저 정적 웹 앱 인스턴스에 접속합니다.
+4. 애저 포털에서 API 매니지먼트에 접속합니다: `https://apim-<AZURE_ENV_NAME>.azure-api.net`
 
 
 ## 깃헙 코드스페이스 ##
 
-TBD
+만약, 깃헙 코드스페이서에서 이 리포지토리를 실행시키고 싶다면 아래 명령어를 실행시킵니다.
+
+```bash
+# Update local.settings.json
+pwsh -c "Invoke-RestMethod https://aka.ms/azfunc-openapi/add-codespaces.ps1 | Invoke-Expression"
+```
