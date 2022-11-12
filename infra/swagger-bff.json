@@ -1,0 +1,409 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "BFF",
+    "version": "1.0",
+    "description": "This is a BFF API for the NHN Cloud SMS service."
+  },
+  "host": "apim-ignitekr2022.azure-api.net",
+  "basePath": "/bff",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "app_auth": {
+      "type": "basic",
+      "description": "Toast API basic auth"
+    }
+  },
+  "security": [
+    {
+      "app_auth": []
+    }
+  ],
+  "paths": {
+    "/messages": {
+      "post": {
+        "description": "Messages.Send",
+        "operationId": "Messages-Send",
+        "summary": "Messages.Send",
+        "tags": [
+          "messages"
+        ],
+        "parameters": [
+          {
+            "name": "sendMessagesRequestBody",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/sendMessagesRequestBody"
+            },
+            "description": "Message payload to send"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/sendMessagesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "header": {
+                  "isSuccessful": true,
+                  "resultCode": 0,
+                  "resultMessage": "SUCCESS"
+                },
+                "body": {
+                  "data": {
+                    "requestId": "201808100000000000000000",
+                    "statusCode": "2",
+                    "senderGroupingKey": "SenderGroupingKey",
+                    "sendResultList": [
+                      {
+                        "recipientNo": "01000000000",
+                        "resultCode": 0,
+                        "resultMessage": "SUCCESS",
+                        "recipientSeq": 1,
+                        "recipientGroupingKey": "RecipientGroupingKey"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The input was invalid"
+          },
+          "500": {
+            "description": "The service has got an unexpected error"
+          }
+        }
+      }
+    },
+    "/senders": {
+      "get": {
+        "description": "Senders.List",
+        "operationId": "Senders-List",
+        "summary": "Senders.List",
+        "tags": [
+          "senders"
+        ],
+        "parameters": [
+          {
+            "name": "sendNo",
+            "in": "query",
+            "description": "Sender's phone number",
+            "type": "string"
+          },
+          {
+            "name": "useYn",
+            "in": "query",
+            "description": "Value indicating whether the number is used or not",
+            "type": "string"
+          },
+          {
+            "name": "blockYn",
+            "in": "query",
+            "description": "Value indicating whether the number is blocked or not",
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "Page number in the pagination. Default value is '1'",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size in the pagination. Default value is '15'",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/listSendersResponse"
+            },
+            "examples": {
+              "application/json": {
+                "header": {
+                  "isSuccessful": true,
+                  "resultCode": 0,
+                  "resultMessage": "SUCCESS"
+                },
+                "body": {
+                  "pageNum": 1,
+                  "pageSize": 15,
+                  "totalCount": 2,
+                  "data": [
+                    {
+                      "serviceId": 1234,
+                      "sendNo": "01012345678",
+                      "useYn": "Y",
+                      "blockYn": "N",
+                      "blockReason": null,
+                      "createDate": "2020-01-01T00:00:00+00:00",
+                      "createUser": "18ad9058-6466-48ef-8a78-08c27519ac24",
+                      "updateDate": "2020-01-01T00:00:00+00:00",
+                      "updateUser": "18ad9058-6466-48ef-8a78-08c27519ac24"
+                    },
+                    {
+                      "serviceId": 5678,
+                      "sendNo": "01087654321",
+                      "useYn": "Y",
+                      "blockYn": "N",
+                      "blockReason": null,
+                      "createDate": "2020-01-01T00:00:00+00:00",
+                      "createUser": "18ad9058-6466-48ef-8a78-08c27519ac24",
+                      "updateDate": "2020-01-01T00:00:00+00:00",
+                      "updateUser": "18ad9058-6466-48ef-8a78-08c27519ac24"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The input was invalid"
+          },
+          "500": {
+            "description": "The service has got an unexpected error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "listSendersResponse": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/responseHeaderModel"
+        },
+        "body": {
+          "$ref": "#/definitions/responseCollectionBodyModel_listSendersResponseData"
+        }
+      }
+    },
+    "listSendersResponseData": {
+      "type": "object",
+      "properties": {
+        "serviceId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "sendNo": {
+          "type": "string"
+        },
+        "useYn": {
+          "type": "string"
+        },
+        "blockYn": {
+          "type": "string"
+        },
+        "blockReason": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "createUser": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "updateUser": {
+          "type": "string"
+        }
+      }
+    },
+    "responseCollectionBodyModel_listSendersResponseData": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageSize": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/listSendersResponseData"
+          }
+        }
+      }
+    },
+    "responseHeaderModel": {
+      "type": "object",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean"
+        },
+        "resultCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "resultMessage": {
+          "type": "string"
+        }
+      }
+    },
+    "responseItemBodyModel_sendMessagesResponseData": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/sendMessagesResponseData"
+        }
+      }
+    },
+    "sendMessagesRequestBody": {
+      "type": "object",
+      "properties": {
+        "templateId": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "sendNo": {
+          "type": "string"
+        },
+        "requestDate": {
+          "type": "string"
+        },
+        "senderGroupingKey": {
+          "type": "string"
+        },
+        "recipientList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sendMessagesRequestRecipient"
+          }
+        },
+        "userId": {
+          "type": "string"
+        },
+        "statsId": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "templateId": "TemplateId",
+        "body": "body",
+        "sendNo": "00000000",
+        "requestDate": "2018-08-10T10:00:00+00:00",
+        "senderGroupingKey": "SenderGroupingKey",
+        "recipientList": [
+          {
+            "recipientNo": "01000000000",
+            "countryCode": "82",
+            "internationalRecipientNo": "821000000000",
+            "templateParameter": {
+              "key": "value"
+            },
+            "recipientGroupingKey": "recipientGroupingKey"
+          }
+        ],
+        "userId": "UserId",
+        "statsId": "statsId"
+      }
+    },
+    "sendMessagesRequestRecipient": {
+      "type": "object",
+      "properties": {
+        "recipientNo": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "internationalRecipientNo": {
+          "type": "string"
+        },
+        "templateParameter": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "recipientGroupingKey": {
+          "type": "string"
+        }
+      }
+    },
+    "sendMessagesResponse": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/responseHeaderModel"
+        },
+        "body": {
+          "$ref": "#/definitions/responseItemBodyModel_sendMessagesResponseData"
+        }
+      }
+    },
+    "sendMessagesResponseData": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        },
+        "statusCode": {
+          "type": "string"
+        },
+        "senderGroupingKey": {
+          "type": "string"
+        },
+        "sendResultList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sendMessagesResponseResult"
+          }
+        }
+      }
+    },
+    "sendMessagesResponseResult": {
+      "type": "object",
+      "properties": {
+        "recipientNo": {
+          "type": "string"
+        },
+        "resultCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "resultMessage": {
+          "type": "string"
+        },
+        "recipientSeq": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "recipientGroupingKey": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": []
+}
