@@ -1,0 +1,59 @@
+@page "/kakaoprofile"
+@using Models
+
+@inject HttpClient Http
+
+<div class="card">
+    <div class="card-body">
+        <button class="btn btn-primary" @onclick="OnAccessTokenClickedAsync">액세스 토큰</button>
+        <button class="btn btn-success" @onclick="OnProfileClickedAsync">카카오 프로필</button>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            Token:
+            @if (accessToken == null)
+            {
+                <span class="text-danger">위 버튼을 클릭해서 액세스 토큰을 가져오세요</span>
+            }
+            else
+            {
+                <span class="text-success">@accessToken</span>
+            }
+        </li>
+        @if (profile == null)
+        {
+            <li class="list-group-item">위 버튼을 클릭해서 카카오 프로필을 가져오세요</li>
+        }
+        else
+        {
+            <li class="list-group-item">닉네임: @profile.NickName</li>
+            <li class="list-group-item">프사: <img src="@profile.ProfileImageURL" /></li>
+        }
+    </ul>
+</div>
+
+@code {
+    private string baseUri = "https://apim-ignitekr2022.azure-api.net";
+
+    protected string? accessToken;
+    protected KakaoProfileModel? profile;
+
+    protected async Task OnAccessTokenClickedAsync()
+    {
+        var requestUri = new Uri($"{baseUri}/kakao/access-token");
+        var accessToken = await Http.GetStringAsync(requestUri);
+
+        this.accessToken = accessToken;
+    }
+
+    protected async Task OnProfileClickedAsync()
+    {
+        Http.DefaultRequestHeaders.Clear();
+        Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {this.accessToken}");
+
+        var requestUri = new Uri($"{baseUri}/kakao/profile");
+        var profile = await Http.GetFromJsonAsync<KakaoProfileModel>(requestUri);
+        
+        this.profile = profile;
+    }
+}

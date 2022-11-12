@@ -17,10 +17,16 @@ paths:
             text/html:
               schema:
                 type: string
-  /v1/api/talk/profile:
+  /profile:
     get:
       summary: Profile
       operationId: profile
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: The OK response
