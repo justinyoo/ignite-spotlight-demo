@@ -33,6 +33,17 @@ var apiManagement = {
     policyValue: apiMgmtPolicyValue
 }
 
+var dicts = [
+    {
+        name: 'RESOURCE_NAME'
+        value: apiManagement.name
+    }
+    {
+        name: 'STTAPP_HOST'
+        value: 'to-be-updated'
+    }
+]
+
 resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
     name: apiManagement.name
     location: apiManagement.location
@@ -49,14 +60,14 @@ resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
     }
 }
 
-resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2021-08-01' = {
-    name: '${apim.name}/RESOURCE_NAME'
+resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2021-08-01' = [for (dict, index) in dicts: {
+    name: '${apim.name}/${dict.name}'
     properties: {
-        displayName: 'RESOURCE_NAME'
+        displayName: dict.name
         secret: true
-        value: apim.name
+        value: dict.value
     }
-}
+}]
 
 resource apimlogger 'Microsoft.ApiManagement/service/loggers@2021-08-01' = {
     name: '${apim.name}/${appInsights.name}'
