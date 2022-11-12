@@ -73,6 +73,7 @@ module apim './provision-apiManagement.bicep' = {
         apiMgmtPublisherEmail: apiManagementPublisherEmail
         apiMgmtPolicyFormat: 'xml-link'
         apiMgmtPolicyValue: 'https://raw.githubusercontent.com/justinyoo/ignite-spotlight-demo/${gitHubBranchName}/infra/apim-global-policy.xml'
+        staticWebAppHostname: sttapp.outputs.hostname
     }
 }
 

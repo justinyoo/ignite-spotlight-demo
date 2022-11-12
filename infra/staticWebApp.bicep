@@ -20,3 +20,4 @@ resource sttapp 'Microsoft.Web/staticSites@2022-03-01' = {
 
 output id string = sttapp.id
 output name string = sttapp.name
+output hostname string = sttapp.properties.defaultHostname
