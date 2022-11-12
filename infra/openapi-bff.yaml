@@ -66,6 +66,8 @@ paths:
           description: The input was invalid
         '500':
           description: The service has got an unexpected error
+      security:
+      - app_auth: [ ]
   /senders:
     get:
       tags:
@@ -140,6 +142,8 @@ paths:
           description: The input was invalid
         '500':
           description: The service has got an unexpected error
+      security:
+      - app_auth: [ ]
 components:
   schemas:
     listSendersResponse:
@@ -276,3 +280,8 @@ components:
           format: int32
         recipientGroupingKey:
           type: string
+  securitySchemes:
+    app_auth:
+      type: http
+      description: Toast API basic auth
+      scheme: basic
