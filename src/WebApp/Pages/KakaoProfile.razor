@@ -7,7 +7,14 @@
 <div class="card">
     <div class="card-body">
         <button class="btn btn-primary" @onclick="OnAccessTokenClickedAsync">액세스 토큰</button>
-        <a class="btn btn-alert" href="@accessTokenLink" target="_blank">액세스 토큰 직링크</a>
+        @if (accessTokenLink == null)
+        {
+            <span class="btn btn-info">액세스 토큰 직링크</span>
+        }
+        else
+        {
+            <a class="btn btn-info" href="@accessTokenLink" target="_blank">액세스 토큰 직링크</a>
+        }
         <button class="btn btn-success" @onclick="OnProfileClickedAsync">카카오 프로필</button>
     </div>
     <ul class="list-group">
