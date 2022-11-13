@@ -2,7 +2,6 @@
 @using Models
 
 @inject HttpClient Http
-@inject IConfiguration Config
 
 <div class="card">
     <div class="card-body">
@@ -50,7 +49,7 @@
 
     protected override void OnInitialized()
     {
-        var accessTokenLink = Config.GetValue<string>("Endpoints:AccessToken");
+        var accessTokenLink = $"{baseUri}/kakao/access-token";
         this.accessTokenLink = accessTokenLink;
     }
     
